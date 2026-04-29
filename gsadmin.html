@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>👑 Admin Panel</title>
+<title>👑 Admin Page</title>
 
 <style>
 
@@ -151,7 +151,8 @@ if(adminpass != "gsadmin"){
 
 alert("Access Denied ❌");
 
-window.location.href="https://gowindasamy.github.io/login/login.html";
+window.location.href =
+"https://gowindasamy.github.io/login/login.html";
 
 }
 
@@ -161,7 +162,7 @@ window.location.href="https://gowindasamy.github.io/login/login.html";
 
 <canvas id="matrix"></canvas>
 
-<h1>👑 ADMIN PANEL 👑</h1>
+<h1>👑 ADMIN PAGE 👑</h1>
 
 <input type="text"
 id="username"
@@ -230,16 +231,7 @@ document.getElementById("password").value;
 
 await setDoc(doc(db,"users",username),{
 
-password: password,
-
-device:
-navigator.userAgent,
-
-time:
-new Date().toLocaleTimeString(),
-
-date:
-new Date().toLocaleDateString()
+password: password
 
 });
 
@@ -272,14 +264,11 @@ html += `
 
 <p><b>Password:</b> ${docu.data().password}</p>
 
-<p><b>📱 Device:</b>
-${docu.data().device}</p>
+<p><b>📅 Login Date:</b>
+${docu.data().lastLoginDate || "No Login"}</p>
 
-<p><b>🕒 Time:</b>
-${docu.data().time}</p>
-
-<p><b>📅 Date:</b>
-${docu.data().date}</p>
+<p><b>🕒 Login Time:</b>
+${docu.data().lastLoginTime || "No Login"}</p>
 
 <button onclick="removeUser('${docu.id}')">
 ❌ Remove User
