@@ -1,347 +1,267 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>👑 Admin Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Page</title>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-margin:0;
-padding:0;
-background:black;
-color:white;
-font-family:Arial;
-text-align:center;
-overflow-x:hidden;
+    background:#050816;
+    overflow-x:hidden;
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    color:white;
+    position:relative;
 }
 
-/* Big Stars Background */
+/* BIG STARS */
 
-.stars{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-overflow:hidden;
-z-index:-1;
+.star{
+    position:absolute;
+    border-radius:50%;
+    background:white;
+    animation:blink 2s infinite alternate;
 }
 
-.stars::before,
-.stars::after{
-
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-background-image:
-
-radial-gradient(white 2px, transparent 2px),
-radial-gradient(cyan 3px, transparent 3px),
-radial-gradient(lime 2px, transparent 2px),
-radial-gradient(yellow 4px, transparent 4px);
-
-background-size:
-200px 200px,
-300px 300px,
-250px 250px,
-400px 400px;
-
-animation:starsMove 60s linear infinite;
-
-opacity:0.9;
-
+@keyframes blink{
+    from{
+        opacity:0.3;
+        transform:scale(1);
+    }
+    to{
+        opacity:1;
+        transform:scale(1.3);
+    }
 }
 
-/* Title */
+/* HEADER */
 
-h1{
-margin-top:50px;
-font-size:50px;
-animation:rainbow 4s linear infinite;
-text-shadow:
-0 0 10px red,
-0 0 20px cyan,
-0 0 30px lime;
+.header{
+    text-align:center;
+    padding-top:40px;
+    z-index:2;
+    position:relative;
 }
 
-/* Inputs */
-
-input{
-padding:15px;
-margin:12px;
-width:280px;
-font-size:18px;
-border:none;
-border-radius:12px;
-outline:none;
-background:rgba(255,255,255,0.08);
-color:white;
-box-shadow:0 0 20px lime;
+.header h1{
+    font-size:55px;
+    color:#00f7ff;
+    text-shadow:0 0 20px #00f7ff;
 }
 
-/* Buttons */
-
-button{
-padding:15px 30px;
-background:linear-gradient(
-45deg,
-lime,
-cyan
-);
-border:none;
-border-radius:12px;
-font-size:20px;
-cursor:pointer;
-font-weight:bold;
-color:black;
-box-shadow:0 0 25px cyan;
-transition:0.3s;
-margin:8px;
+.header p{
+    margin-top:10px;
+    color:#aaa;
+    font-size:20px;
 }
 
-button:hover{
-transform:scale(1.1);
+/* USER CARD */
+
+.container{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-bottom:80px;
+    position:relative;
+    z-index:2;
 }
 
-/* User Box */
-
-.userbox{
-background:rgba(255,255,255,0.08);
-width:340px;
-margin:20px auto;
-padding:18px;
-border-radius:15px;
-box-shadow:0 0 20px lime;
-word-wrap:break-word;
+.history-card{
+    width:350px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border:2px solid rgba(255,255,255,0.15);
+    border-radius:30px;
+    padding:30px;
+    margin-top:40px;
+    text-align:center;
+    box-shadow:0 0 25px rgba(0,255,255,0.2);
 }
 
-hr{
-border:1px solid cyan;
+.profile{
+    font-size:80px;
 }
 
-/* Animations */
-
-@keyframes rainbow{
-
-0%{color:red;}
-20%{color:orange;}
-40%{color:yellow;}
-60%{color:lime;}
-80%{color:cyan;}
-100%{color:magenta;}
-
+.username{
+    font-size:35px;
+    font-weight:bold;
+    margin-top:10px;
+    color:#00f7ff;
 }
 
-@keyframes starsMove{
-
-from{
-transform:translateY(0);
+.title{
+    margin-top:15px;
+    font-size:32px;
+    font-weight:bold;
 }
 
-to{
-transform:translateY(1000px);
+.info{
+    margin-top:20px;
+    font-size:25px;
+    color:#fff;
 }
 
+.line{
+    width:100%;
+    height:3px;
+    background:#00f7ff;
+    border-radius:10px;
+    margin-top:25px;
+}
+
+/* BUTTONS */
+
+.btn{
+    width:100%;
+    border:none;
+    margin-top:25px;
+    padding:22px;
+    border-radius:25px;
+    font-size:28px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+    color:black;
+    background:linear-gradient(90deg,#00ff2a,#00e1ff);
+}
+
+.btn:hover{
+    transform:scale(1.04);
+}
+
+.remove{
+    background:linear-gradient(90deg,#ff2d2d,#ff7b00);
+    color:white;
 }
 
 </style>
-
-<!-- html2canvas -->
-
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 </head>
-
 <body>
 
-<div class="stars"></div>
+<!-- STARS -->
 
-<h1>👑 ADMIN PAGE 👑</h1>
+<script>
 
-<input type="text"
-id="username"
-placeholder="Create Username">
+for(let i=0;i<80;i++){
 
-<br>
+    const star=document.createElement("div");
 
-<input type="password"
-id="password"
-placeholder="Create Password">
+    star.classList.add("star");
 
-<br>
+    const size=Math.random()*8+4;
 
-<button onclick="saveUser()">
-🚀 Create Login
-</button>
+    star.style.width=size+"px";
+    star.style.height=size+"px";
 
-<h2 style="color:cyan;">
-📜 User Information
-</h2>
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*100+"%";
 
-<div id="history"></div>
+    star.style.animationDuration=
+    (Math.random()*3+1)+"s";
 
-<script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-getFirestore,
-doc,
-setDoc,
-collection,
-getDocs,
-deleteDoc
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyAV9WmHR_cY01i3UMLpwlbymjjz_sQT_80",
-
-authDomain: "tngslogin.firebaseapp.com",
-
-projectId: "tngslogin",
-
-storageBucket: "tngslogin.firebasestorage.app",
-
-messagingSenderId: "552680193680",
-
-appId: "1:552680193680:web:54db58e0e418a2b63aa215"
-
-};
-
-const app = initializeApp(firebaseConfig);
-
-const db = getFirestore(app);
-
-window.saveUser = async function(){
-
-let username =
-document.getElementById("username").value;
-
-let password =
-document.getElementById("password").value;
-
-await setDoc(doc(db,"users",username),{
-
-password: password
-
-});
-
-alert("Login Created 🚀");
-
-document.getElementById("username").value = "";
-
-document.getElementById("password").value = "";
-
-loadUsers();
-
+    document.body.appendChild(star);
 }
 
-async function loadUsers(){
+</script>
 
-const querySnapshot =
-await getDocs(collection(db,"users"));
+<!-- HEADER -->
 
-let html = "";
+<div class="header">
+    <h1>⚡ ADMIN PAGE</h1>
+    <p>User Login History</p>
+</div>
 
-querySnapshot.forEach((docu)=>{
+<!-- USER HISTORY -->
 
-html += `
+<div class="container">
 
-<div class="userbox"
-data-user="${docu.id}">
+    <!-- USER 1 -->
 
-<h3>👤 User Information</h3>
+    <div class="history-card" id="user1">
 
-<p><b>Username:</b> ${docu.id}</p>
+        <div class="profile">👤</div>
 
-<p><b>Password:</b> ${docu.data().password}</p>
+        <div class="username">
+            GOWIND
+        </div>
 
-<h3 style="color:cyan;">
-📅 Login History
-</h3>
+        <div class="title">
+            📅 Login History
+        </div>
 
-${
-docu.data().loginHistory
+        <div class="info">
+            📅 28 April 2026
+        </div>
 
-? docu.data().loginHistory.map(log => `
+        <div class="info">
+            🕒 08:45 PM
+        </div>
 
-<p>
-📅 ${log.date}
-</p>
+        <div class="line"></div>
 
-<p>
-🕒 ${log.time}
-</p>
+        <button class="btn"
+        onclick="downloadHistory('user1','gowind')">
+            📥 Download JPG
+        </button>
 
-<hr>
+        <button class="btn remove"
+        onclick="removeUser('user1')">
+            ❌ Remove User
+        </button>
 
-`).join("")
-
-: "No Login"
-
-}
-
-<button onclick="downloadUser('${docu.id}')">
-📥 Download
-</button>
-
-<button onclick="removeUser('${docu.id}')">
-❌ Remove User
-</button>
+    </div>
 
 </div>
 
-`;
+<script>
 
-});
+/* DOWNLOAD JPG */
 
-document.getElementById("history").innerHTML = html;
+async function downloadHistory(cardId, username){
 
+    const card=document.getElementById(cardId);
+
+    const canvas=await html2canvas(card,{
+        backgroundColor:"#050816",
+        scale:3
+    });
+
+    const image=
+    canvas.toDataURL("image/jpeg",1.0);
+
+    const link=document.createElement("a");
+
+    link.href=image;
+
+    link.download=username+"_history.jpg";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
 }
 
-window.removeUser = async function(username){
+/* REMOVE USER */
 
-await deleteDoc(doc(db,"users",username));
+function removeUser(cardId){
 
-alert("User Removed ❌");
+    const card=document.getElementById(cardId);
 
-loadUsers();
-
+    card.remove();
 }
-
-window.downloadUser = async function(username){
-
-const element =
-document.querySelector(
-`[data-user="${username}"]`
-);
-
-html2canvas(element).then(canvas => {
-
-const link =
-document.createElement("a");
-
-link.download =
-username + "_history.png";
-
-link.href =
-canvas.toDataURL();
-
-link.click();
-
-});
-
-}
-
-loadUsers();
 
 </script>
 
