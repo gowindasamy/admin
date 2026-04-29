@@ -1,267 +1,371 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Admin Page</title>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<title>👑 Admin Page</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    background:#050816;
-    overflow-x:hidden;
-    font-family:Arial, sans-serif;
-    min-height:100vh;
-    color:white;
-    position:relative;
+margin:0;
+padding:0;
+background:black;
+color:white;
+font-family:Arial;
+text-align:center;
+overflow-x:hidden;
 }
 
-/* BIG STARS */
+/* Big Stars Background */
 
-.star{
-    position:absolute;
-    border-radius:50%;
-    background:white;
-    animation:blink 2s infinite alternate;
+.stars{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+overflow:hidden;
+z-index:-1;
 }
 
-@keyframes blink{
-    from{
-        opacity:0.3;
-        transform:scale(1);
-    }
-    to{
-        opacity:1;
-        transform:scale(1.3);
-    }
+.stars::before,
+.stars::after{
+
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+background-image:
+
+radial-gradient(white 2px, transparent 2px),
+radial-gradient(cyan 3px, transparent 3px),
+radial-gradient(lime 2px, transparent 2px),
+radial-gradient(yellow 4px, transparent 4px);
+
+background-size:
+200px 200px,
+300px 300px,
+250px 250px,
+400px 400px;
+
+animation:starsMove 60s linear infinite;
+
+opacity:0.9;
+
 }
 
-/* HEADER */
+/* Title */
 
-.header{
-    text-align:center;
-    padding-top:40px;
-    z-index:2;
-    position:relative;
+h1{
+margin-top:50px;
+font-size:50px;
+animation:rainbow 4s linear infinite;
+text-shadow:
+0 0 10px red,
+0 0 20px cyan,
+0 0 30px lime;
 }
 
-.header h1{
-    font-size:55px;
-    color:#00f7ff;
-    text-shadow:0 0 20px #00f7ff;
+/* Inputs */
+
+input{
+padding:15px;
+margin:12px;
+width:280px;
+font-size:18px;
+border:none;
+border-radius:12px;
+outline:none;
+background:rgba(255,255,255,0.08);
+color:white;
+box-shadow:0 0 20px lime;
 }
 
-.header p{
-    margin-top:10px;
-    color:#aaa;
-    font-size:20px;
+/* Buttons */
+
+button{
+padding:15px 30px;
+background:linear-gradient(
+45deg,
+lime,
+cyan
+);
+border:none;
+border-radius:12px;
+font-size:20px;
+cursor:pointer;
+font-weight:bold;
+color:black;
+box-shadow:0 0 25px cyan;
+transition:0.3s;
+margin:8px;
 }
 
-/* USER CARD */
-
-.container{
-    width:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding-bottom:80px;
-    position:relative;
-    z-index:2;
+button:hover{
+transform:scale(1.1);
 }
 
-.history-card{
-    width:350px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(10px);
-    border:2px solid rgba(255,255,255,0.15);
-    border-radius:30px;
-    padding:30px;
-    margin-top:40px;
-    text-align:center;
-    box-shadow:0 0 25px rgba(0,255,255,0.2);
+/* User Box */
+
+.userbox{
+background:rgba(0,0,0,0.75);
+width:340px;
+margin:20px auto;
+padding:18px;
+border-radius:15px;
+box-shadow:0 0 20px cyan;
+word-wrap:break-word;
+border:2px solid cyan;
 }
 
-.profile{
-    font-size:80px;
+hr{
+border:1px solid cyan;
 }
 
-.username{
-    font-size:35px;
-    font-weight:bold;
-    margin-top:10px;
-    color:#00f7ff;
+/* Animations */
+
+@keyframes rainbow{
+
+0%{color:red;}
+20%{color:orange;}
+40%{color:yellow;}
+60%{color:lime;}
+80%{color:cyan;}
+100%{color:magenta;}
+
 }
 
-.title{
-    margin-top:15px;
-    font-size:32px;
-    font-weight:bold;
+@keyframes starsMove{
+
+from{
+transform:translateY(0);
 }
 
-.info{
-    margin-top:20px;
-    font-size:25px;
-    color:#fff;
+to{
+transform:translateY(1000px);
 }
 
-.line{
-    width:100%;
-    height:3px;
-    background:#00f7ff;
-    border-radius:10px;
-    margin-top:25px;
-}
-
-/* BUTTONS */
-
-.btn{
-    width:100%;
-    border:none;
-    margin-top:25px;
-    padding:22px;
-    border-radius:25px;
-    font-size:28px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
-    color:black;
-    background:linear-gradient(90deg,#00ff2a,#00e1ff);
-}
-
-.btn:hover{
-    transform:scale(1.04);
-}
-
-.remove{
-    background:linear-gradient(90deg,#ff2d2d,#ff7b00);
-    color:white;
 }
 
 </style>
+
+<!-- html2canvas -->
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </head>
+
 <body>
 
-<!-- STARS -->
+<div class="stars"></div>
 
-<script>
+<h1>👑 ADMIN PAGE 👑</h1>
 
-for(let i=0;i<80;i++){
+<input type="text"
+id="username"
+placeholder="Create Username">
 
-    const star=document.createElement("div");
+<br>
 
-    star.classList.add("star");
+<input type="password"
+id="password"
+placeholder="Create Password">
 
-    const size=Math.random()*8+4;
+<br>
 
-    star.style.width=size+"px";
-    star.style.height=size+"px";
+<button onclick="saveUser()">
+🚀 Create Login
+</button>
 
-    star.style.left=Math.random()*100+"%";
-    star.style.top=Math.random()*100+"%";
+<h2 style="color:cyan;">
+📜 User Information
+</h2>
 
-    star.style.animationDuration=
-    (Math.random()*3+1)+"s";
+<div id="history"></div>
 
-    document.body.appendChild(star);
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+doc,
+setDoc,
+collection,
+getDocs,
+deleteDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAV9WmHR_cY01i3UMLpwlbymjjz_sQT_80",
+
+authDomain: "tngslogin.firebaseapp.com",
+
+projectId: "tngslogin",
+
+storageBucket: "tngslogin.firebasestorage.app",
+
+messagingSenderId: "552680193680",
+
+appId: "1:552680193680:web:54db58e0e418a2b63aa215"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+window.saveUser = async function(){
+
+let username =
+document.getElementById("username").value;
+
+let password =
+document.getElementById("password").value;
+
+await setDoc(doc(db,"users",username),{
+
+password: password
+
+});
+
+alert("Login Created 🚀");
+
+document.getElementById("username").value = "";
+
+document.getElementById("password").value = "";
+
+loadUsers();
+
 }
 
-</script>
+async function loadUsers(){
 
-<!-- HEADER -->
+const querySnapshot =
+await getDocs(collection(db,"users"));
 
-<div class="header">
-    <h1>⚡ ADMIN PAGE</h1>
-    <p>User Login History</p>
+let html = "";
+
+querySnapshot.forEach((docu)=>{
+
+html += `
+
+<div class="userbox"
+data-user="${docu.id}">
+
+<h3>👤 User Information</h3>
+
+<p><b>Username:</b> ${docu.id}</p>
+
+<p><b>Password:</b> ${docu.data().password}</p>
+
+<h3 style="color:cyan;">
+📅 Login History
+</h3>
+
+${
+docu.data().loginHistory
+
+? docu.data().loginHistory.map(log => `
+
+<p>
+📅 ${log.date}
+</p>
+
+<p>
+🕒 ${log.time}
+</p>
+
+<hr>
+
+`).join("")
+
+: "No Login"
+
+}
+
+<button onclick="downloadUser('${docu.id}')">
+📥 Download
+</button>
+
+<button onclick="removeUser('${docu.id}')">
+❌ Remove User
+</button>
+
 </div>
 
-<!-- USER HISTORY -->
+`;
 
-<div class="container">
+});
 
-    <!-- USER 1 -->
+document.getElementById("history").innerHTML = html;
 
-    <div class="history-card" id="user1">
-
-        <div class="profile">👤</div>
-
-        <div class="username">
-            GOWIND
-        </div>
-
-        <div class="title">
-            📅 Login History
-        </div>
-
-        <div class="info">
-            📅 28 April 2026
-        </div>
-
-        <div class="info">
-            🕒 08:45 PM
-        </div>
-
-        <div class="line"></div>
-
-        <button class="btn"
-        onclick="downloadHistory('user1','gowind')">
-            📥 Download JPG
-        </button>
-
-        <button class="btn remove"
-        onclick="removeUser('user1')">
-            ❌ Remove User
-        </button>
-
-    </div>
-
-</div>
-
-<script>
-
-/* DOWNLOAD JPG */
-
-async function downloadHistory(cardId, username){
-
-    const card=document.getElementById(cardId);
-
-    const canvas=await html2canvas(card,{
-        backgroundColor:"#050816",
-        scale:3
-    });
-
-    const image=
-    canvas.toDataURL("image/jpeg",1.0);
-
-    const link=document.createElement("a");
-
-    link.href=image;
-
-    link.download=username+"_history.jpg";
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
 }
 
-/* REMOVE USER */
+window.removeUser = async function(username){
 
-function removeUser(cardId){
+await deleteDoc(doc(db,"users",username));
 
-    const card=document.getElementById(cardId);
+alert("User Removed ❌");
 
-    card.remove();
+loadUsers();
+
 }
+
+window.downloadUser = async function(username){
+
+const element =
+document.querySelector(
+`[data-user="${username}"]`
+);
+
+html2canvas(element,{
+
+backgroundColor:"#000000",
+scale:2
+
+}).then(canvas => {
+
+const ctx =
+canvas.getContext("2d");
+
+ctx.globalCompositeOperation =
+"destination-over";
+
+ctx.fillStyle = "#000000";
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+const link =
+document.createElement("a");
+
+link.download =
+username + "_history.jpg";
+
+link.href =
+canvas.toDataURL(
+"image/jpeg",
+1.0
+);
+
+link.click();
+
+});
+
+}
+
+loadUsers();
 
 </script>
 
