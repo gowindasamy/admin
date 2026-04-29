@@ -15,8 +15,6 @@ text-align:center;
 overflow:hidden;
 }
 
-/* Animated Background */
-
 .bg{
 position:fixed;
 top:0;
@@ -35,8 +33,6 @@ animation:bgmove 12s ease infinite;
 z-index:-2;
 }
 
-/* Matrix Background */
-
 #matrix{
 position:fixed;
 top:0;
@@ -45,8 +41,6 @@ width:100%;
 height:100%;
 z-index:-1;
 }
-
-/* Title */
 
 h1{
 margin-top:50px;
@@ -57,8 +51,6 @@ text-shadow:
 0 0 20px cyan,
 0 0 30px lime;
 }
-
-/* Inputs */
 
 input{
 padding:15px;
@@ -72,8 +64,6 @@ background:rgba(255,255,255,0.08);
 color:white;
 box-shadow:0 0 20px lime;
 }
-
-/* Buttons */
 
 button{
 padding:15px 30px;
@@ -96,8 +86,6 @@ button:hover{
 transform:scale(1.1);
 }
 
-/* User Box */
-
 .userbox{
 background:rgba(255,255,255,0.08);
 width:340px;
@@ -108,7 +96,9 @@ box-shadow:0 0 20px lime;
 word-wrap:break-word;
 }
 
-/* Animations */
+hr{
+border:1px solid cyan;
+}
 
 @keyframes rainbow{
 
@@ -264,11 +254,30 @@ html += `
 
 <p><b>Password:</b> ${docu.data().password}</p>
 
-<p><b>📅 Login Date:</b>
-${docu.data().lastLoginDate || "No Login"}</p>
+<h3 style="color:cyan;">
+📅 Login History
+</h3>
 
-<p><b>🕒 Login Time:</b>
-${docu.data().lastLoginTime || "No Login"}</p>
+${
+docu.data().loginHistory
+
+? docu.data().loginHistory.map(log => `
+
+<p>
+<b>📅 Date:</b> ${log.date}
+</p>
+
+<p>
+<b>🕒 Time:</b> ${log.time}
+</p>
+
+<hr>
+
+`).join("")
+
+: "No Login"
+
+}
 
 <button onclick="removeUser('${docu.id}')">
 ❌ Remove User
