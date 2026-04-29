@@ -12,30 +12,10 @@ background:black;
 color:white;
 font-family:Arial;
 text-align:center;
-overflow:hidden;
+overflow-x:hidden;
 }
 
-/* Animated Background */
-
-.bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(
-45deg,
-#000000,
-#001122,
-#000000,
-#001a00
-);
-background-size:400% 400%;
-animation:bgmove 12s ease infinite;
-z-index:-3;
-}
-
-/* Stars Animation */
+/* Stars Background */
 
 .stars{
 position:fixed;
@@ -44,21 +24,10 @@ left:0;
 width:100%;
 height:100%;
 background:
-transparent url("https://www.transparenttextures.com/patterns/stardust.png");
+black url("https://www.transparenttextures.com/patterns/stardust.png");
 animation:starsMove 60s linear infinite;
-z-index:-2;
-opacity:0.8;
-}
-
-/* Matrix Background */
-
-#matrix{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
 z-index:-1;
+opacity:0.9;
 }
 
 /* Title */
@@ -105,6 +74,7 @@ font-weight:bold;
 color:black;
 box-shadow:0 0 25px cyan;
 transition:0.3s;
+margin:8px;
 }
 
 button:hover{
@@ -140,22 +110,6 @@ border:1px solid cyan;
 
 }
 
-@keyframes bgmove{
-
-0%{
-background-position:0% 50%;
-}
-
-50%{
-background-position:100% 50%;
-}
-
-100%{
-background-position:0% 50%;
-}
-
-}
-
 @keyframes starsMove{
 
 from{
@@ -169,15 +123,16 @@ background-position:0 1000px;
 }
 
 </style>
+
+<!-- html2canvas -->
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </head>
 
 <body>
 
-<div class="bg"></div>
-
 <div class="stars"></div>
-
-<canvas id="matrix"></canvas>
 
 <h1>👑 ADMIN PAGE 👑</h1>
 
@@ -273,7 +228,8 @@ querySnapshot.forEach((docu)=>{
 
 html += `
 
-<div class="userbox">
+<div class="userbox"
+data-user="${docu.id}">
 
 <h3>👤 User Information</h3>
 
@@ -306,6 +262,10 @@ docu.data().loginHistory
 
 }
 
+<button onclick="downloadUser('${docu.id}')">
+📥 Download
+</button>
+
 <button onclick="removeUser('${docu.id}')">
 ❌ Remove User
 </button>
@@ -330,90 +290,31 @@ loadUsers();
 
 }
 
+window.downloadUser = async function(username){
+
+const element =
+document.querySelector(
+`[data-user="${username}"]`
+);
+
+html2canvas(element).then(canvas => {
+
+const link =
+document.createElement("a");
+
+link.download =
+username + "_history.png";
+
+link.href =
+canvas.toDataURL();
+
+link.click();
+
+});
+
+}
+
 loadUsers();
-
-</script>
-
-<script>
-
-const canvas =
-document.getElementById("matrix");
-
-const ctx =
-canvas.getContext("2d");
-
-canvas.width =
-window.innerWidth;
-
-canvas.height =
-window.innerHeight;
-
-const letters =
-"01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&";
-
-const fontSize = 14;
-
-const columns =
-canvas.width / fontSize;
-
-const drops = [];
-
-for(let x = 0; x < columns; x++){
-
-drops[x] = 1;
-
-}
-
-function draw(){
-
-ctx.fillStyle =
-"rgba(0,0,0,0.05)";
-
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-ctx.fillStyle = "#00ff99";
-
-ctx.font =
-fontSize + "px monospace";
-
-for(let i = 0; i < drops.length; i++){
-
-const text =
-letters.charAt(
-Math.floor(
-Math.random()
-* letters.length
-)
-);
-
-ctx.fillText(
-text,
-i * fontSize,
-drops[i] * fontSize
-);
-
-if(
-drops[i] * fontSize
-> canvas.height
-&& Math.random() > 0.975
-){
-
-drops[i] = 0;
-
-}
-
-drops[i]++;
-
-}
-
-}
-
-setInterval(draw,33);
 
 </script>
 
