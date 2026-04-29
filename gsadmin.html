@@ -320,32 +320,40 @@ loadUsers();
 
 window.downloadUser = async function(username){
 
-const element =
+const original =
 document.querySelector(
 `[data-user="${username}"]`
 );
 
-html2canvas(element,{
+/* Clone User Box */
+
+const clone =
+original.cloneNode(true);
+
+/* Remove Buttons */
+
+clone.querySelectorAll("button")
+.forEach(btn => btn.remove());
+
+/* Hide Clone */
+
+clone.style.position = "fixed";
+clone.style.top = "-9999px";
+
+document.body.appendChild(clone);
+
+/* Capture */
+
+html2canvas(clone,{
 
 backgroundColor:"#000000",
 scale:2
 
 }).then(canvas => {
 
-const ctx =
-canvas.getContext("2d");
+/* Convert to JPG */
 
-ctx.globalCompositeOperation =
-"destination-over";
-
-ctx.fillStyle = "#000000";
-
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
+canvas.toBlob(function(blob){
 
 const link =
 document.createElement("a");
@@ -354,12 +362,15 @@ link.download =
 username + "_history.jpg";
 
 link.href =
-canvas.toDataURL(
-"image/jpeg",
-1.0
-);
+URL.createObjectURL(blob);
 
 link.click();
+
+/* Remove Clone */
+
+document.body.removeChild(clone);
+
+},"image/jpeg",1.0);
 
 });
 
