@@ -223,7 +223,7 @@ password: password,
 
 status:"unlocked",
 
-loginLimit:1,
+loginLimit:999999,
 
 loginCount:0
 
@@ -261,6 +261,16 @@ data-user="${docu.id}">
 
 <p>
 
+<b>Total Logins:</b>
+
+${docu.data().loginHistory
+? docu.data().loginHistory.length
+: 0}
+
+</p>
+
+<p>
+
 <b>Status:</b>
 
 <span style="
@@ -279,12 +289,12 @@ ${docu.data().status == "locked"
 
 </p>
 
-<p>
+<p class="hideDownload">
 <b>Login Limit:</b>
-${docu.data().loginLimit || 1}
+${docu.data().loginLimit || "Unlimited"}
 </p>
 
-<p>
+<p class="hideDownload">
 <b>Current Login:</b>
 ${docu.data().loginCount || 0}
 </p>
@@ -394,7 +404,8 @@ if(status == "locked"){
 await updateDoc(doc(db,"users",username),{
 
 status:"unlocked",
-loginCount:0
+loginCount:0,
+loginLimit:999999
 
 });
 
@@ -460,6 +471,15 @@ original.cloneNode(true);
 
 clone.querySelectorAll("button")
 .forEach(btn => btn.remove());
+
+/* Hide Limit Details */
+
+clone.querySelectorAll(".hideDownload")
+.forEach(el => {
+
+el.remove();
+
+});
 
 /* Show Hidden History */
 
