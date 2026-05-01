@@ -451,16 +451,37 @@ document.querySelector(
 `[data-user="${username}"]`
 );
 
+/* Clone */
+
 const clone =
 original.cloneNode(true);
 
+/* Remove Buttons */
+
 clone.querySelectorAll("button")
 .forEach(btn => btn.remove());
+
+/* Show Hidden History */
+
+const hiddenHistory =
+clone.querySelectorAll(
+'[id^="history-"]'
+);
+
+hiddenHistory.forEach(box => {
+
+box.style.display = "block";
+
+});
+
+/* Hide Clone */
 
 clone.style.position = "fixed";
 clone.style.top = "-9999px";
 
 document.body.appendChild(clone);
+
+/* Capture */
 
 html2canvas(clone,{
 
@@ -481,6 +502,8 @@ link.href =
 URL.createObjectURL(blob);
 
 link.click();
+
+/* Remove Clone */
 
 document.body.removeChild(clone);
 
