@@ -8,16 +8,16 @@
 body{
 margin:0;
 padding:0;
-background:#000;
+background:black;
 color:white;
 font-family:Arial;
 text-align:center;
 overflow-x:hidden;
 }
 
-/* Circuit Background */
+/* RED HACKER ALERT BACKGROUND */
 
-#circuit{
+#alertbg{
 position:fixed;
 top:0;
 left:0;
@@ -25,24 +25,42 @@ width:100%;
 height:100%;
 z-index:-1;
 background:
-linear-gradient(
-90deg,
-rgba(0,255,255,0.08) 1px,
-transparent 1px
-),
-linear-gradient(
-rgba(0,255,255,0.08) 1px,
-transparent 1px
-);
-
-background-size:40px 40px;
-
-animation:circuitMove 8s linear infinite;
+radial-gradient(circle at center,
+rgba(255,0,0,0.15),
+black 70%);
+overflow:hidden;
+animation:pulsebg 3s infinite;
 }
 
-/* Glow Lines */
+/* Moving Red Lines */
 
-#circuit::before{
+#alertbg::before{
+
+content:"";
+
+position:absolute;
+top:0;
+left:-100%;
+
+width:200%;
+height:100%;
+
+background:
+repeating-linear-gradient(
+90deg,
+transparent 0px,
+transparent 40px,
+rgba(255,0,0,0.12) 42px,
+transparent 44px
+);
+
+animation:moveLines 8s linear infinite;
+
+}
+
+/* Flash Glow */
+
+#alertbg::after{
 
 content:"";
 
@@ -53,65 +71,91 @@ width:100%;
 height:100%;
 
 background:
-repeating-linear-gradient(
-90deg,
-transparent,
-transparent 80px,
-rgba(0,255,0,0.25) 82px,
-transparent 84px
-),
+radial-gradient(circle,
+rgba(255,0,0,0.12),
+transparent 70%);
 
-repeating-linear-gradient(
-0deg,
-transparent,
-transparent 80px,
-rgba(0,255,255,0.25) 82px,
-transparent 84px
-);
-
-animation:glowMove 6s linear infinite;
+animation:flash 2s infinite;
 
 }
 
 /* Animations */
 
-@keyframes circuitMove{
+@keyframes pulsebg{
 
 0%{
-background-position:0 0;
-}
-
-100%{
-background-position:40px 40px;
-}
-
-}
-
-@keyframes glowMove{
-
-0%{
-transform:translate(0,0);
+filter:brightness(1);
 }
 
 50%{
-transform:translate(20px,20px);
+filter:brightness(1.3);
 }
 
 100%{
-transform:translate(0,0);
+filter:brightness(1);
 }
 
 }
+
+@keyframes moveLines{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(200px);
+}
+
+}
+
+@keyframes flash{
+
+0%{
+opacity:0.2;
+}
+
+50%{
+opacity:0.6;
+}
+
+100%{
+opacity:0.2;
+}
+
+}
+
+/* Title */
 
 h1{
 margin-top:50px;
 font-size:50px;
-animation:rainbow 4s linear infinite;
+color:red;
 text-shadow:
 0 0 10px red,
-0 0 20px cyan,
-0 0 30px lime;
+0 0 20px red,
+0 0 40px darkred;
+
+animation:danger 2s infinite;
 }
+
+@keyframes danger{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.05);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* Inputs */
 
 input{
 padding:15px;
@@ -121,59 +165,52 @@ font-size:18px;
 border:none;
 border-radius:12px;
 outline:none;
-background:rgba(255,255,255,0.08);
+background:rgba(255,0,0,0.08);
 color:white;
-box-shadow:0 0 20px lime;
+box-shadow:0 0 20px red;
 }
+
+/* Buttons */
 
 button{
 padding:15px 30px;
 background:linear-gradient(
 45deg,
-lime,
-cyan
+red,
+darkred
 );
 border:none;
 border-radius:12px;
 font-size:18px;
 cursor:pointer;
 font-weight:bold;
-color:black;
-box-shadow:0 0 25px cyan;
+color:white;
+box-shadow:0 0 25px red;
 transition:0.3s;
 margin:8px;
 }
 
 button:hover{
 transform:scale(1.1);
-box-shadow:0 0 30px lime;
+box-shadow:0 0 35px crimson;
 }
 
+/* User Box */
+
 .userbox{
-background:rgba(0,0,0,0.75);
+background:rgba(20,0,0,0.8);
 width:340px;
 margin:20px auto;
 padding:18px;
 border-radius:15px;
-box-shadow:0 0 20px cyan;
+box-shadow:0 0 25px red;
 word-wrap:break-word;
-border:2px solid cyan;
+border:2px solid red;
 backdrop-filter:blur(6px);
 }
 
 hr{
-border:1px solid cyan;
-}
-
-@keyframes rainbow{
-
-0%{color:red;}
-20%{color:orange;}
-40%{color:yellow;}
-60%{color:lime;}
-80%{color:cyan;}
-100%{color:magenta;}
-
+border:1px solid red;
 }
 
 </style>
@@ -184,9 +221,9 @@ border:1px solid cyan;
 
 <body>
 
-<div id="circuit"></div>
+<div id="alertbg"></div>
 
-<h1>👑 ADMIN PAGE 👑</h1>
+<h1>🚨 ADMIN ALERT 🚨</h1>
 
 <input type="text"
 id="username"
@@ -204,7 +241,10 @@ placeholder="Create Password">
 🚀 Create Login
 </button>
 
-<h2 style="color:cyan;">
+<h2 style="
+color:red;
+text-shadow:0 0 15px red;
+">
 📜 User Information
 </h2>
 
@@ -247,8 +287,6 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-/* CREATE USER */
-
 window.saveUser = async function(){
 
 let username =
@@ -280,8 +318,6 @@ document.getElementById("password").value = "";
 loadUsers();
 
 }
-
-/* LOAD USERS */
 
 async function loadUsers(){
 
@@ -382,7 +418,7 @@ ${count}
 
 }
 
-<h3 style="color:cyan;">
+<h3 style="color:red;">
 📅 Login Details
 </h3>
 
@@ -461,7 +497,7 @@ document.getElementById("history").innerHTML = html;
 
 }
 
-/* VIEW HISTORY */
+/* HISTORY */
 
 window.toggleHistory = function(id){
 
@@ -470,21 +506,14 @@ document.getElementById(
 "history-" + id
 );
 
-if(box.style.display == "none"){
-
-box.style.display = "block";
-
-}
-
-else{
-
-box.style.display = "none";
+box.style.display =
+box.style.display == "none"
+? "block"
+: "none";
 
 }
 
-}
-
-/* LOCK / UNLOCK */
+/* LOCK */
 
 window.toggleLock = async function(username){
 
@@ -528,7 +557,7 @@ popup.style.left = "0";
 popup.style.width = "100%";
 popup.style.height = "100%";
 popup.style.background =
-"rgba(0,0,0,0.8)";
+"rgba(0,0,0,0.85)";
 popup.style.display = "flex";
 popup.style.justifyContent =
 "center";
@@ -539,11 +568,11 @@ popup.style.zIndex = "9999";
 const box =
 document.createElement("div");
 
-box.style.background = "black";
+box.style.background = "#100";
 box.style.padding = "25px";
 box.style.borderRadius = "15px";
 box.style.boxShadow =
-"0 0 20px cyan";
+"0 0 25px red";
 box.style.textAlign = "center";
 box.style.width = "300px";
 
@@ -551,9 +580,9 @@ const title =
 document.createElement("h2");
 
 title.innerHTML =
-"🔒 Enter Login Limit";
+"🚨 Enter Login Limit";
 
-title.style.color = "cyan";
+title.style.color = "red";
 
 const input =
 document.createElement("input");
