@@ -260,8 +260,23 @@ data-user="${docu.id}">
 <p><b>Password:</b> ${docu.data().password}</p>
 
 <p>
+
 <b>Status:</b>
-${docu.data().status || "unlocked"}
+
+<span style="
+color:
+${docu.data().status == "locked"
+? "red"
+: "lime"};
+font-weight:bold;
+">
+
+${docu.data().status == "locked"
+? "🔒 Locked"
+: "🔓 Not Locked"}
+
+</span>
+
 </p>
 
 <p>
@@ -303,10 +318,6 @@ ${docu.data().status == "locked"
 
 </button>
 
-<button onclick="setLimit('${docu.id}')">
-🎯 Set Limit
-</button>
-
 <button onclick="downloadUser('${docu.id}')">
 📥 Download
 </button>
@@ -327,41 +338,48 @@ document.getElementById("history").innerHTML = html;
 
 window.toggleLock = async function(username,status){
 
+if(status == "locked"){
+
 await updateDoc(doc(db,"users",username),{
 
-status:
-status == "locked"
-? "unlocked"
-: "locked"
+status:"unlocked",
+loginCount:0
 
 });
 
-loadUsers();
+alert("Account Unlocked ✅");
 
 }
 
-window.setLimit = async function(username){
+else{
 
 let limit =
 prompt("Enter Login Limit");
 
-if(limit){
+if(limit == null || limit == ""){
+
+return;
+
+}
+
+limit = Number(limit);
 
 await updateDoc(doc(db,"users",username),{
 
-loginLimit:Number(limit),
-
-loginCount:0,
-
-status:"unlocked"
+status:"unlocked",
+loginLimit:limit,
+loginCount:0
 
 });
 
-alert("Limit Updated ✅");
-
-loadUsers();
+alert(
+"Limit Set : "
++ limit
+);
 
 }
+
+loadUsers();
 
 }
 
