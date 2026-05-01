@@ -269,7 +269,7 @@ ${docu.data().loginHistory
 
 </p>
 
-<p>
+<p class="hideDownload">
 
 <b>Status:</b>
 
@@ -290,14 +290,39 @@ ${docu.data().status == "locked"
 </p>
 
 <p class="hideDownload">
+
 <b>Login Limit:</b>
-${docu.data().loginLimit || "Unlimited"}
+
+${
+docu.data().loginLimit >= 999999
+? "No Limit Set"
+: docu.data().loginLimit
+}
+
 </p>
 
+${
+docu.data().status == "locked"
+
+?
+
+`
+
 <p class="hideDownload">
+
 <b>Current Login:</b>
+
 ${docu.data().loginCount || 0}
+
 </p>
+
+`
+
+:
+
+""
+
+}
 
 <h3 style="color:cyan;">
 📅 Login Details
@@ -411,24 +436,89 @@ loginLimit:999999
 
 alert("Account Unlocked ✅");
 
+loadUsers();
+
 }
 
 else{
 
-let limit =
-prompt("Enter Login Limit");
+const popup =
+document.createElement("div");
 
-if(limit == null || limit == ""){
+popup.style.position = "fixed";
+popup.style.top = "0";
+popup.style.left = "0";
+popup.style.width = "100%";
+popup.style.height = "100%";
+popup.style.background =
+"rgba(0,0,0,0.8)";
+popup.style.display = "flex";
+popup.style.justifyContent =
+"center";
+popup.style.alignItems =
+"center";
+popup.style.zIndex = "9999";
+
+const box =
+document.createElement("div");
+
+box.style.background = "black";
+box.style.padding = "25px";
+box.style.borderRadius = "15px";
+box.style.boxShadow =
+"0 0 20px cyan";
+box.style.textAlign = "center";
+box.style.width = "300px";
+
+const title =
+document.createElement("h2");
+
+title.innerHTML =
+"🔒 Enter Login Limit";
+
+title.style.color = "cyan";
+
+const input =
+document.createElement("input");
+
+input.type = "number";
+
+input.placeholder =
+"Enter Number";
+
+input.style.width = "90%";
+input.style.padding = "15px";
+input.style.marginTop = "15px";
+input.style.fontSize = "20px";
+input.style.borderRadius = "10px";
+input.style.border = "none";
+input.style.outline = "none";
+
+input.inputMode = "numeric";
+
+const btn =
+document.createElement("button");
+
+btn.innerHTML = "✅ OK";
+
+btn.style.marginTop = "20px";
+
+btn.onclick = async function(){
+
+let limit =
+Number(input.value);
+
+if(!limit){
+
+alert("Enter Valid Number ❌");
 
 return;
 
 }
 
-limit = Number(limit);
-
 await updateDoc(doc(db,"users",username),{
 
-status:"unlocked",
+status:"locked",
 loginLimit:limit,
 loginCount:0
 
@@ -439,9 +529,25 @@ alert(
 + limit
 );
 
-}
+document.body.removeChild(popup);
 
 loadUsers();
+
+}
+
+box.appendChild(title);
+
+box.appendChild(input);
+
+box.appendChild(btn);
+
+popup.appendChild(box);
+
+document.body.appendChild(popup);
+
+input.focus();
+
+}
 
 }
 
@@ -462,17 +568,11 @@ document.querySelector(
 `[data-user="${username}"]`
 );
 
-/* Clone */
-
 const clone =
 original.cloneNode(true);
 
-/* Remove Buttons */
-
 clone.querySelectorAll("button")
 .forEach(btn => btn.remove());
-
-/* Hide Limit Details */
 
 clone.querySelectorAll(".hideDownload")
 .forEach(el => {
@@ -480,8 +580,6 @@ clone.querySelectorAll(".hideDownload")
 el.remove();
 
 });
-
-/* Show Hidden History */
 
 const hiddenHistory =
 clone.querySelectorAll(
@@ -494,14 +592,10 @@ box.style.display = "block";
 
 });
 
-/* Hide Clone */
-
 clone.style.position = "fixed";
 clone.style.top = "-9999px";
 
 document.body.appendChild(clone);
-
-/* Capture */
 
 html2canvas(clone,{
 
@@ -522,8 +616,6 @@ link.href =
 URL.createObjectURL(blob);
 
 link.click();
-
-/* Remove Clone */
 
 document.body.removeChild(clone);
 
