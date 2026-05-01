@@ -15,8 +15,6 @@ text-align:center;
 overflow-x:hidden;
 }
 
-/* Big Stars Background */
-
 .stars{
 position:fixed;
 top:0;
@@ -486,22 +484,12 @@ input.type = "number";
 input.placeholder =
 "Enter Number";
 
-input.style.width = "90%";
-input.style.padding = "15px";
-input.style.marginTop = "15px";
-input.style.fontSize = "20px";
-input.style.borderRadius = "10px";
-input.style.border = "none";
-input.style.outline = "none";
-
 input.inputMode = "numeric";
 
 const btn =
 document.createElement("button");
 
 btn.innerHTML = "✅ OK";
-
-btn.style.marginTop = "20px";
 
 btn.onclick = async function(){
 
@@ -518,16 +506,11 @@ return;
 
 await updateDoc(doc(db,"users",username),{
 
-status:"locked",
+status:"unlocked",
 loginLimit:limit,
 loginCount:0
 
 });
-
-alert(
-"Limit Set : "
-+ limit
-);
 
 document.body.removeChild(popup);
 
@@ -536,9 +519,7 @@ loadUsers();
 }
 
 box.appendChild(title);
-
 box.appendChild(input);
-
 box.appendChild(btn);
 
 popup.appendChild(box);
