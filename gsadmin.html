@@ -252,8 +252,6 @@ let html = "";
 
 querySnapshot.forEach((docu)=>{
 
-/* AUTO STATUS CHECK */
-
 let limit =
 docu.data().loginLimit || 999999;
 
@@ -322,7 +320,7 @@ limit >= 999999
 </p>
 
 ${
-status == "locked"
+limit != 999999
 
 ?
 
