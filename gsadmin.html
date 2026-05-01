@@ -207,6 +207,8 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+/* CREATE USER */
+
 window.saveUser = async function(){
 
 let username =
@@ -223,7 +225,9 @@ status:"unlocked",
 
 loginLimit:999999,
 
-loginCount:0
+loginCount:0,
+
+loginHistory:[]
 
 });
 
@@ -237,6 +241,8 @@ loadUsers();
 
 }
 
+/* LOAD USERS */
+
 async function loadUsers(){
 
 const querySnapshot =
@@ -245,6 +251,22 @@ await getDocs(collection(db,"users"));
 let html = "";
 
 querySnapshot.forEach((docu)=>{
+
+/* AUTO STATUS CHECK */
+
+let limit =
+docu.data().loginLimit || 999999;
+
+let count =
+docu.data().loginCount || 0;
+
+let status =
+count >= limit
+&& limit != 999999
+
+? "locked"
+
+: "unlocked";
 
 html += `
 
@@ -273,13 +295,13 @@ ${docu.data().loginHistory
 
 <span style="
 color:
-${docu.data().status == "locked"
+${status == "locked"
 ? "red"
 : "lime"};
 font-weight:bold;
 ">
 
-${docu.data().status == "locked"
+${status == "locked"
 ? "🔒 Locked"
 : "🔓 Not Locked"}
 
@@ -292,15 +314,15 @@ ${docu.data().status == "locked"
 <b>Login Limit:</b>
 
 ${
-docu.data().loginLimit >= 999999
+limit >= 999999
 ? "No Limit Set"
-: docu.data().loginLimit
+: limit
 }
 
 </p>
 
 ${
-docu.data().status == "locked"
+status == "locked"
 
 ?
 
@@ -310,7 +332,7 @@ docu.data().status == "locked"
 
 <b>Current Login:</b>
 
-${docu.data().loginCount || 0}
+${count}
 
 </p>
 
@@ -373,9 +395,9 @@ docu.data().loginHistory
 
 }
 
-<button onclick="toggleLock('${docu.id}','${docu.data().status}')">
+<button onclick="toggleLock('${docu.id}','${status}')">
 
-${docu.data().status == "locked"
+${status == "locked"
 ? "🔓 Unlock"
 : "🔒 Lock"}
 
@@ -399,6 +421,8 @@ document.getElementById("history").innerHTML = html;
 
 }
 
+/* VIEW HISTORY */
+
 window.toggleHistory = function(id){
 
 const box =
@@ -419,6 +443,8 @@ box.style.display = "none";
 }
 
 }
+
+/* LOCK / UNLOCK */
 
 window.toggleLock = async function(username,status){
 
@@ -532,6 +558,8 @@ input.focus();
 
 }
 
+/* REMOVE USER */
+
 window.removeUser = async function(username){
 
 await deleteDoc(doc(db,"users",username));
@@ -541,6 +569,8 @@ alert("User Removed ❌");
 loadUsers();
 
 }
+
+/* DOWNLOAD JPG */
 
 window.downloadUser = async function(username){
 
