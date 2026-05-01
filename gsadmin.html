@@ -183,7 +183,8 @@ setDoc,
 collection,
 getDocs,
 deleteDoc,
-updateDoc
+updateDoc,
+getDoc
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -389,7 +390,7 @@ docu.data().loginHistory
 
 }
 
-<button onclick="toggleLock('${docu.id}','${status}')">
+<button onclick="toggleLock('${docu.id}')">
 
 ${
 limit != 999999
@@ -438,15 +439,26 @@ box.style.display = "none";
 
 }
 
-window.toggleLock = async function(username,status){
+window.toggleLock = async function(username){
 
-if(status == "locked"){
+const userRef =
+doc(db,"users",username);
 
-await updateDoc(doc(db,"users",username),{
+const userSnap =
+await getDoc(userRef);
+
+const limit =
+userSnap.data().loginLimit || 999999;
+
+/* UNLOCK */
+
+if(limit != 999999){
+
+await updateDoc(userRef,{
 
 status:"unlocked",
-loginCount:0,
-loginLimit:999999
+loginLimit:999999,
+loginCount:0
 
 });
 
@@ -454,9 +466,11 @@ alert("Account Unlocked ✅");
 
 loadUsers();
 
+return;
+
 }
 
-else{
+/* LOCK POPUP */
 
 const popup =
 document.createElement("div");
@@ -516,7 +530,7 @@ Number(input.value);
 
 if(limit === 0){
 
-await updateDoc(doc(db,"users",username),{
+await updateDoc(userRef,{
 
 status:"unlocked",
 loginLimit:999999,
@@ -542,7 +556,7 @@ return;
 
 }
 
-await updateDoc(doc(db,"users",username),{
+await updateDoc(userRef,{
 
 status:"unlocked",
 loginLimit:limit,
@@ -570,8 +584,6 @@ popup.appendChild(box);
 document.body.appendChild(popup);
 
 input.focus();
-
-}
 
 }
 
