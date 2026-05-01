@@ -295,6 +295,36 @@ ${docu.data().loginCount || 0}
 
 ${
 docu.data().loginHistory
+&& docu.data().loginHistory.length > 2
+
+?
+
+`
+
+<button onclick="toggleHistory('${docu.id}')">
+📜 View Login History
+</button>
+
+<div id="history-${docu.id}"
+style="display:none;">
+
+${docu.data().loginHistory.map(log => `
+
+<p>📅 ${log.date}</p>
+
+<p>🕒 ${log.time}</p>
+
+<hr>
+
+`).join("")}
+
+</div>
+
+`
+
+:
+
+docu.data().loginHistory
 
 ? docu.data().loginHistory.map(log => `
 
@@ -333,6 +363,27 @@ ${docu.data().status == "locked"
 });
 
 document.getElementById("history").innerHTML = html;
+
+}
+
+window.toggleHistory = function(id){
+
+const box =
+document.getElementById(
+"history-" + id
+);
+
+if(box.style.display == "none"){
+
+box.style.display = "block";
+
+}
+
+else{
+
+box.style.display = "none";
+
+}
 
 }
 
