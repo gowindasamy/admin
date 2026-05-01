@@ -207,8 +207,6 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-/* CREATE USER */
-
 window.saveUser = async function(){
 
 let username =
@@ -240,8 +238,6 @@ document.getElementById("password").value = "";
 loadUsers();
 
 }
-
-/* LOAD USERS */
 
 async function loadUsers(){
 
@@ -395,9 +391,11 @@ docu.data().loginHistory
 
 <button onclick="toggleLock('${docu.id}','${status}')">
 
-${status == "locked"
+${
+limit != 999999
 ? "🔓 Unlock"
-: "🔒 Lock"}
+: "🔒 Lock"
+}
 
 </button>
 
@@ -419,8 +417,6 @@ document.getElementById("history").innerHTML = html;
 
 }
 
-/* VIEW HISTORY */
-
 window.toggleHistory = function(id){
 
 const box =
@@ -441,8 +437,6 @@ box.style.display = "none";
 }
 
 }
-
-/* LOCK / UNLOCK */
 
 window.toggleLock = async function(username,status){
 
@@ -520,7 +514,27 @@ btn.onclick = async function(){
 let limit =
 Number(input.value);
 
-if(!limit){
+if(limit === 0){
+
+await updateDoc(doc(db,"users",username),{
+
+status:"unlocked",
+loginLimit:999999,
+loginCount:0
+
+});
+
+alert("No Limit Set ✅");
+
+document.body.removeChild(popup);
+
+loadUsers();
+
+return;
+
+}
+
+if(isNaN(limit) || limit < 0){
 
 alert("Enter Valid Number ❌");
 
@@ -535,6 +549,11 @@ loginLimit:limit,
 loginCount:0
 
 });
+
+alert(
+"Limit Set : "
++ limit
+);
 
 document.body.removeChild(popup);
 
@@ -556,8 +575,6 @@ input.focus();
 
 }
 
-/* REMOVE USER */
-
 window.removeUser = async function(username){
 
 await deleteDoc(doc(db,"users",username));
@@ -567,8 +584,6 @@ alert("User Removed ❌");
 loadUsers();
 
 }
-
-/* DOWNLOAD JPG */
 
 window.downloadUser = async function(username){
 
