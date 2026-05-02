@@ -142,7 +142,8 @@ text-shadow:
 
 /* Inputs */
 
-input{
+input,
+select{
 padding:15px;
 margin:12px;
 width:280px;
@@ -233,6 +234,24 @@ placeholder="Create Password">
 
 <br>
 
+<select id="access">
+
+<option value="jee">
+JEE
+</option>
+
+<option value="12th">
+12th
+</option>
+
+<option value="both">
+JEE + 12th
+</option>
+
+</select>
+
+<br>
+
 <button onclick="saveUser()">
 🚀 Create Login
 </button>
@@ -290,9 +309,14 @@ document.getElementById("username").value;
 let password =
 document.getElementById("password").value;
 
+let access =
+document.getElementById("access").value;
+
 await setDoc(doc(db,"users",username),{
 
 password: password,
+
+pageAccess:access,
 
 status:"unlocked",
 
@@ -349,6 +373,11 @@ data-user="${docu.id}">
 <p><b>Username:</b> ${docu.id}</p>
 
 <p><b>Password:</b> ${docu.data().password}</p>
+
+<p>
+<b>Page Access:</b>
+${docu.data().pageAccess}
+</p>
 
 <p>
 
@@ -466,6 +495,12 @@ docu.data().loginHistory
 
 }
 
+<button onclick="changeAccess('${docu.id}')">
+
+🔄 Change Access
+
+</button>
+
 <button onclick="toggleLock('${docu.id}')">
 
 ${
@@ -507,6 +542,51 @@ box.style.display =
 box.style.display == "none"
 ? "block"
 : "none";
+
+}
+
+/* CHANGE ACCESS */
+
+window.changeAccess =
+async function(username){
+
+const userRef =
+doc(db,"users",username);
+
+const choose =
+prompt(
+
+"Choose Access 👇\n\njee\n12th\nboth"
+
+);
+
+if(!choose) return;
+
+if(
+choose != "jee"
+&&
+choose != "12th"
+&&
+choose != "both"
+){
+
+alert("Invalid Access ❌");
+
+return;
+
+}
+
+await updateDoc(userRef,{
+
+pageAccess:choose
+
+});
+
+alert(
+"Access Changed ✅"
+);
+
+loadUsers();
 
 }
 
@@ -623,8 +703,6 @@ btn.onclick = async function(){
 let limit =
 parseInt(input.value);
 
-/* EMPTY */
-
 if(input.value.trim() == ""){
 
 alert("Enter Valid Number ❌");
@@ -632,8 +710,6 @@ alert("Enter Valid Number ❌");
 return;
 
 }
-
-/* INVALID */
 
 if(
 isNaN(limit)
@@ -647,8 +723,6 @@ alert(
 return;
 
 }
-
-/* SET LIMIT */
 
 await updateDoc(userRef,{
 
@@ -770,4 +844,4 @@ loadUsers();
 </script>
 
 </body>
-</html>
+  </html>
