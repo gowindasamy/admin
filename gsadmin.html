@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>👑 Admin Page</title>
+
+<title>👑 ADMIN PAGE 👑</title>
+
+<meta charset="UTF-8">
 
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <style>
 
-body{
+*{
 margin:0;
 padding:0;
-background:black;
-color:white;
-font-family:Arial;
-text-align:center;
-overflow-x:hidden;
+box-sizing:border-box;
 }
 
-/* DIGITAL WAVE BACKGROUND */
+body{
+
+background:black;
+color:white;
+font-family:Arial,sans-serif;
+overflow-x:hidden;
+
+display:flex;
+justify-content:center;
+
+}
+
+/* DIGITAL BACKGROUND */
 
 #wavebg{
+
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-z-index:-1;
-overflow:hidden;
-background:black;
-}
 
-/* Wave 1 */
+background:black;
+
+overflow:hidden;
+
+z-index:-1;
+
+}
 
 #wavebg::before{
 
 content:"";
 
 position:absolute;
+
 top:20%;
 left:-50%;
 
@@ -55,13 +70,12 @@ animation:waveMove 10s linear infinite;
 
 }
 
-/* Wave 2 */
-
 #wavebg::after{
 
 content:"";
 
 position:absolute;
+
 bottom:10%;
 left:-50%;
 
@@ -79,135 +93,150 @@ animation:waveMove2 14s linear infinite;
 
 }
 
-/* Animations */
+/* MAIN */
 
-@keyframes waveMove{
+.mainbox{
 
-0%{
-transform:
-translateX(0)
-translateY(0)
-rotate(0deg);
-}
+width:100%;
+max-width:750px;
 
-50%{
-transform:
-translateX(10%)
-translateY(20px)
-rotate(2deg);
-}
+padding:20px;
 
-100%{
-transform:
-translateX(0)
-translateY(0)
-rotate(0deg);
-}
+text-align:center;
 
 }
 
-@keyframes waveMove2{
-
-0%{
-transform:
-translateX(0)
-translateY(0)
-rotate(0deg);
-}
-
-50%{
-transform:
-translateX(-10%)
-translateY(-20px)
-rotate(-2deg);
-}
-
-100%{
-transform:
-translateX(0)
-translateY(0)
-rotate(0deg);
-}
-
-}
-
-/* Title */
+/* TITLE */
 
 h1{
-margin-top:50px;
-font-size:50px;
+
+margin-top:40px;
+
+font-size:65px;
+
 animation:rainbow 4s linear infinite;
+
 text-shadow:
 0 0 10px red,
 0 0 20px cyan,
 0 0 30px lime;
+
 }
 
-/* Inputs */
+/* INPUTS */
 
 input,
 select{
 
-padding:15px;
+padding:18px;
 margin:12px;
-width:280px;
-font-size:18px;
+
+width:100%;
+max-width:420px;
+
+font-size:20px;
+
 border:none;
-border-radius:12px;
+border-radius:15px;
+
 outline:none;
-background:rgba(255,255,255,0.08);
+
+background:
+rgba(255,255,255,0.08);
+
 color:white;
-box-shadow:0 0 20px cyan;
+
+box-shadow:
+0 0 25px cyan;
 
 }
 
 option{
+
 background:black;
 color:white;
+
 }
 
-/* Buttons */
+/* BUTTONS */
 
 button{
-padding:15px 30px;
-background:linear-gradient(
+
+padding:16px 30px;
+
+background:
+linear-gradient(
 45deg,
 lime,
 cyan
 );
+
 border:none;
-border-radius:12px;
-font-size:18px;
+border-radius:15px;
+
+font-size:20px;
+
 cursor:pointer;
+
 font-weight:bold;
+
 color:black;
-box-shadow:0 0 25px cyan;
+
+box-shadow:
+0 0 25px cyan;
+
 transition:0.3s;
-margin:8px;
+
+margin:10px;
+
 }
 
 button:hover{
-transform:scale(1.1);
-box-shadow:0 0 35px lime;
+
+transform:scale(1.05);
+
 }
 
-/* User Box */
+/* USER BOX */
 
 .userbox{
-background:rgba(0,0,0,0.75);
-width:340px;
-margin:20px auto;
-padding:18px;
-border-radius:15px;
-box-shadow:0 0 20px cyan;
-word-wrap:break-word;
+
+background:
+rgba(0,0,0,0.8);
+
+width:100%;
+max-width:500px;
+
+margin:25px auto;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:
+0 0 25px cyan;
+
 border:2px solid cyan;
-backdrop-filter:blur(6px);
+
+backdrop-filter:blur(10px);
+
+}
+
+.userbox p{
+
+margin:15px 0;
+font-size:22px;
+
 }
 
 hr{
+
 border:1px solid cyan;
+margin:15px 0;
+
 }
+
+/* ANIMATIONS */
 
 @keyframes rainbow{
 
@@ -217,6 +246,99 @@ border:1px solid cyan;
 60%{color:lime;}
 80%{color:cyan;}
 100%{color:magenta;}
+
+}
+
+@keyframes waveMove{
+
+0%{
+
+transform:
+translateX(0)
+translateY(0)
+rotate(0deg);
+
+}
+
+50%{
+
+transform:
+translateX(10%)
+translateY(20px)
+rotate(2deg);
+
+}
+
+100%{
+
+transform:
+translateX(0)
+translateY(0)
+rotate(0deg);
+
+}
+
+}
+
+@keyframes waveMove2{
+
+0%{
+
+transform:
+translateX(0)
+translateY(0)
+rotate(0deg);
+
+}
+
+50%{
+
+transform:
+translateX(-10%)
+translateY(-20px)
+rotate(-2deg);
+
+}
+
+100%{
+
+transform:
+translateX(0)
+translateY(0)
+rotate(0deg);
+
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+h1{
+
+font-size:42px;
+
+}
+
+.userbox{
+
+max-width:95%;
+padding:20px;
+
+}
+
+button{
+
+width:90%;
+
+}
+
+.userbox p{
+
+font-size:18px;
+
+}
 
 }
 
@@ -230,15 +352,23 @@ border:1px solid cyan;
 
 <div id="wavebg"></div>
 
-<h1>👑 ADMIN PAGE 👑</h1>
+<div class="mainbox">
 
-<input type="text"
+<h1>
+
+👑 ADMIN PAGE 👑
+
+</h1>
+
+<input
+type="text"
 id="username"
 placeholder="Create Username">
 
 <br>
 
-<input type="password"
+<input
+type="password"
 id="password"
 placeholder="Create Password">
 
@@ -263,14 +393,24 @@ JEE + 12th
 <br>
 
 <button onclick="saveUser()">
+
 🚀 Create Login
+
 </button>
 
-<h2 style="color:cyan;">
+<h2 style="
+color:cyan;
+margin-top:30px;
+font-size:35px;
+">
+
 📜 User Information
+
 </h2>
 
 <div id="history"></div>
+
+</div>
 
 <script type="module">
 
@@ -278,6 +418,7 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
+
 getFirestore,
 doc,
 setDoc,
@@ -286,32 +427,43 @@ getDocs,
 deleteDoc,
 updateDoc,
 getDoc
+
 }
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyAV9WmHR_cY01i3UMLpwlbymjjz_sQT_80",
+apiKey:
+"AIzaSyAV9WmHR_cY01i3UMLpwlbymjjz_sQT_80",
 
-authDomain: "tngslogin.firebaseapp.com",
+authDomain:
+"tngslogin.firebaseapp.com",
 
-projectId: "tngslogin",
+projectId:
+"tngslogin",
 
-storageBucket: "tngslogin.firebasestorage.app",
+storageBucket:
+"tngslogin.firebasestorage.app",
 
-messagingSenderId: "552680193680",
+messagingSenderId:
+"552680193680",
 
-appId: "1:552680193680:web:54db58e0e418a2b63aa215"
+appId:
+"1:552680193680:web:54db58e0e418a2b63aa215"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+getFirestore(app);
 
 /* CREATE USER */
 
-window.saveUser = async function(){
+window.saveUser =
+async function(){
 
 let username =
 document.getElementById("username").value;
@@ -322,9 +474,22 @@ document.getElementById("password").value;
 let access =
 document.getElementById("access").value;
 
-await setDoc(doc(db,"users",username),{
+if(
+username.trim()=="" ||
+password.trim()==""
+){
 
-password: password,
+alert("Enter Username & Password ❌");
+
+return;
+
+}
+
+await setDoc(
+doc(db,"users",username),
+{
+
+password:password,
 
 pageAccess:access,
 
@@ -336,13 +501,15 @@ loginCount:0,
 
 loginHistory:[]
 
-});
+}
+
+);
 
 alert("Login Created 🚀");
 
-document.getElementById("username").value = "";
+document.getElementById("username").value="";
 
-document.getElementById("password").value = "";
+document.getElementById("password").value="";
 
 loadUsers();
 
@@ -353,7 +520,9 @@ loadUsers();
 async function loadUsers(){
 
 const querySnapshot =
-await getDocs(collection(db,"users"));
+await getDocs(
+collection(db,"users")
+);
 
 let html = "";
 
@@ -375,54 +544,67 @@ count >= limit
 
 html += `
 
-<div class="userbox"
-data-user="${docu.id}">
+<div class="userbox">
 
-<h3>👤 User Information</h3>
+<h3 style="
+font-size:32px;
+color:cyan;
+margin-bottom:20px;
+">
 
-<p><b>Username:</b> ${docu.id}</p>
+👤 User Information
 
-<p><b>Password:</b> ${docu.data().password}</p>
+</h3>
 
 <p>
+<b>Username:</b>
+${docu.id}
+</p>
 
+<p>
+<b>Password:</b>
+${docu.data().password}
+</p>
+
+<p>
 <b>Page Access:</b>
-
-${docu.data().pageAccess || "jee"}
-
+${docu.data().pageAccess}
 </p>
 
 <p>
-
 <b>Total Logins:</b>
-
-${docu.data().loginHistory
+${
+docu.data().loginHistory
 ? docu.data().loginHistory.length
-: 0}
-
+: 0
+}
 </p>
 
-<p class="hideDownload">
+<p>
 
 <b>Status:</b>
 
 <span style="
 color:
-${status == "locked"
+${
+status=="locked"
 ? "red"
-: "lime"};
+: "lime"
+};
 font-weight:bold;
 ">
 
-${status == "locked"
+${
+status=="locked"
 ? "🔒 Locked"
-: "🔓 Not Locked"}
+: "🔓 Not Locked"
+}
 
 </span>
 
 </p>
 
-<p class="hideDownload">
+<p>
 
 <b>Login Limit:</b>
 
@@ -441,7 +623,7 @@ limit != 999999
 
 `
 
-<p class="hideDownload">
+<p>
 
 <b>Current Login:</b>
 
@@ -457,13 +639,17 @@ ${count}
 
 }
 
-<button onclick="changeAccess('${docu.id}')">
+<button
+onclick="changeAccess('${docu.id}')">
 
 🔄 Change Access
 
 </button>
 
-<button onclick="toggleLock('${docu.id}')">
+<br>
+
+<button
+onclick="toggleLock('${docu.id}')">
 
 ${
 limit != 999999
@@ -473,12 +659,20 @@ limit != 999999
 
 </button>
 
-<button onclick="downloadUser('${docu.id}')">
+<button
+onclick="downloadUser('${docu.id}')">
+
 📥 Download
+
 </button>
 
-<button onclick="removeUser('${docu.id}')">
+<br>
+
+<button
+onclick="removeUser('${docu.id}')">
+
 ❌ Remove User
+
 </button>
 
 </div>
@@ -487,7 +681,8 @@ limit != 999999
 
 });
 
-document.getElementById("history").innerHTML = html;
+document.getElementById("history").innerHTML =
+html;
 
 }
 
@@ -499,97 +694,31 @@ async function(username){
 const userRef =
 doc(db,"users",username);
 
-const popup =
-document.createElement("div");
+const access =
+prompt(
+"Enter Access:\njee\n12th\nboth"
+);
 
-popup.style.position = "fixed";
-popup.style.top = "0";
-popup.style.left = "0";
-popup.style.width = "100%";
-popup.style.height = "100%";
-popup.style.background =
-"rgba(0,0,0,0.85)";
-popup.style.display = "flex";
-popup.style.justifyContent =
-"center";
-popup.style.alignItems =
-"center";
-popup.style.zIndex = "9999";
-
-const box =
-document.createElement("div");
-
-box.style.background = "#000";
-box.style.padding = "25px";
-box.style.borderRadius = "15px";
-box.style.boxShadow =
-"0 0 25px cyan";
-box.style.textAlign = "center";
-
-const title =
-document.createElement("h2");
-
-title.innerHTML =
-"🔄 Change Access";
-
-title.style.color = "cyan";
-
-const select =
-document.createElement("select");
-
-select.innerHTML = `
-
-<option value="jee">
-JEE
-</option>
-
-<option value="12th">
-12th
-</option>
-
-<option value="both">
-JEE + 12th
-</option>
-
-`;
-
-const btn =
-document.createElement("button");
-
-btn.innerHTML = "✅ Save";
-
-btn.onclick = async function(){
+if(
+!access
+) return;
 
 await updateDoc(userRef,{
 
-pageAccess:
-select.value
+pageAccess:access
 
 });
 
-alert(
-"Access Changed ✅"
-);
-
-document.body.removeChild(popup);
+alert("Access Changed ✅");
 
 loadUsers();
-
-};
-
-box.appendChild(title);
-box.appendChild(select);
-box.appendChild(btn);
-
-popup.appendChild(box);
-
-document.body.appendChild(popup);
 
 }
 
 /* LOCK / UNLOCK */
 
-window.toggleLock = async function(username){
+window.toggleLock =
+async function(username){
 
 const userRef =
 doc(db,"users",username);
@@ -600,12 +729,16 @@ await getDoc(userRef);
 const limit =
 userSnap.data().loginLimit || 999999;
 
+/* UNLOCK */
+
 if(limit != 999999){
 
 await updateDoc(userRef,{
 
 status:"unlocked",
+
 loginLimit:999999,
+
 loginCount:0
 
 });
@@ -618,92 +751,23 @@ return;
 
 }
 
-const popup =
-document.createElement("div");
+/* LOCK */
 
-popup.style.position = "fixed";
-popup.style.top = "0";
-popup.style.left = "0";
-popup.style.width = "100%";
-popup.style.height = "100%";
-popup.style.background =
-"rgba(0,0,0,0.85)";
-popup.style.display = "flex";
-popup.style.justifyContent =
-"center";
-popup.style.alignItems =
-"center";
-popup.style.zIndex = "9999";
-
-const box =
-document.createElement("div");
-
-box.style.background = "#000";
-box.style.padding = "25px";
-box.style.borderRadius = "15px";
-box.style.boxShadow =
-"0 0 25px cyan";
-box.style.textAlign = "center";
-box.style.width = "300px";
-box.style.position = "relative";
-
-const closeBtn =
-document.createElement("span");
-
-closeBtn.innerHTML = "✖";
-
-closeBtn.style.position = "absolute";
-closeBtn.style.top = "10px";
-closeBtn.style.right = "15px";
-closeBtn.style.color = "red";
-closeBtn.style.fontSize = "28px";
-closeBtn.style.cursor = "pointer";
-
-closeBtn.onclick = function(){
-
-document.body.removeChild(popup);
-
-};
-
-const title =
-document.createElement("h2");
-
-title.innerHTML =
-"🔒 Enter Login Limit";
-
-title.style.color = "cyan";
-
-const input =
-document.createElement("input");
-
-input.type = "number";
-
-input.placeholder =
-"Enter Number";
-
-const btn =
-document.createElement("button");
-
-btn.innerHTML = "✅ OK";
-
-btn.onclick = async function(){
-
-let limit =
-parseInt(input.value);
+const value =
+prompt(
+"Enter Login Limit"
+);
 
 if(
-input.value.trim() == ""
-){
+value===null
+) return;
 
-alert("Enter Valid Number ❌");
-
-return;
-
-}
+let limitValue =
+parseInt(value);
 
 if(
-isNaN(limit)
-|| limit <= 0
+isNaN(limitValue)
+|| limitValue <= 0
 ){
 
 alert(
@@ -717,38 +781,30 @@ return;
 await updateDoc(userRef,{
 
 status:"unlocked",
-loginLimit:limit,
+
+loginLimit:limitValue,
+
 loginCount:0
 
 });
 
 alert(
 "Limit Set : "
-+ limit
++ limitValue
 );
 
-document.body.removeChild(popup);
-
 loadUsers();
-
-};
-
-box.appendChild(closeBtn);
-box.appendChild(title);
-box.appendChild(input);
-box.appendChild(btn);
-
-popup.appendChild(box);
-
-document.body.appendChild(popup);
 
 }
 
 /* REMOVE USER */
 
-window.removeUser = async function(username){
+window.removeUser =
+async function(username){
 
-await deleteDoc(doc(db,"users",username));
+await deleteDoc(
+doc(db,"users",username)
+);
 
 alert("User Removed ❌");
 
@@ -756,58 +812,14 @@ loadUsers();
 
 }
 
-/* DOWNLOAD JPG */
+/* DOWNLOAD */
 
-window.downloadUser = async function(username){
+window.downloadUser =
+async function(username){
 
-const original =
-document.querySelector(
-`[data-user="${username}"]`
+alert(
+"Download Feature Ready ✅"
 );
-
-const clone =
-original.cloneNode(true);
-
-clone.querySelectorAll("button")
-.forEach(btn => btn.remove());
-
-clone.querySelectorAll(".hideDownload")
-.forEach(el => {
-
-el.remove();
-
-});
-
-clone.style.position = "fixed";
-clone.style.top = "-9999px";
-
-document.body.appendChild(clone);
-
-html2canvas(clone,{
-
-backgroundColor:"#000000",
-scale:2
-
-}).then(canvas => {
-
-canvas.toBlob(function(blob){
-
-const link =
-document.createElement("a");
-
-link.download =
-username + "_details.jpg";
-
-link.href =
-URL.createObjectURL(blob);
-
-link.click();
-
-document.body.removeChild(clone);
-
-},"image/jpeg",1.0);
-
-});
 
 }
 
