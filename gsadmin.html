@@ -572,6 +572,28 @@ box.style.boxShadow =
 "0 0 25px cyan";
 box.style.textAlign = "center";
 box.style.width = "300px";
+box.style.position = "relative";
+
+/* CLOSE BUTTON */
+
+const closeBtn =
+document.createElement("span");
+
+closeBtn.innerHTML = "✖";
+
+closeBtn.style.position = "absolute";
+closeBtn.style.top = "10px";
+closeBtn.style.right = "15px";
+closeBtn.style.color = "red";
+closeBtn.style.fontSize = "28px";
+closeBtn.style.cursor = "pointer";
+closeBtn.style.fontWeight = "bold";
+
+closeBtn.onclick = function(){
+
+document.body.removeChild(popup);
+
+};
 
 const title =
 document.createElement("h2");
@@ -601,31 +623,9 @@ btn.onclick = async function(){
 let limit =
 parseInt(input.value);
 
-/* EMPTY = NO LIMIT */
+/* EMPTY */
 
 if(input.value.trim() == ""){
-
-await updateDoc(userRef,{
-
-status:"unlocked",
-loginLimit:999999,
-loginCount:0
-
-});
-
-alert("No Limit Set ✅");
-
-document.body.removeChild(popup);
-
-loadUsers();
-
-return;
-
-}
-
-/* INVALID */
-
-if(isNaN(limit) || limit < 0){
 
 alert("Enter Valid Number ❌");
 
@@ -633,7 +633,22 @@ return;
 
 }
 
-/* 0 ALSO WORK */
+/* INVALID */
+
+if(
+isNaN(limit)
+|| limit <= 0
+){
+
+alert(
+"Enter Number Above 0 ❌"
+);
+
+return;
+
+}
+
+/* SET LIMIT */
 
 await updateDoc(userRef,{
 
@@ -656,8 +671,12 @@ return;
 
 }
 
+box.appendChild(closeBtn);
+
 box.appendChild(title);
+
 box.appendChild(input);
+
 box.appendChild(btn);
 
 popup.appendChild(box);
