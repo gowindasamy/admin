@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>👑 Admin Page</title>
+<title>👑 ADMIN PAGE 👑</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <style>
 
@@ -599,27 +602,19 @@ btn.innerHTML = "✅ OK";
 btn.onclick = async function(){
 
 let limit =
-Number(input.value);
+parseInt(input.value);
 
-if(limit === 0){
+/* EMPTY */
 
-await updateDoc(userRef,{
+if(input.value.trim() == ""){
 
-status:"unlocked",
-loginLimit:999999,
-loginCount:0
-
-});
-
-alert("No Limit Set ✅");
-
-document.body.removeChild(popup);
-
-loadUsers();
+alert("Enter Valid Number ❌");
 
 return;
 
 }
+
+/* INVALID */
 
 if(isNaN(limit) || limit < 0){
 
@@ -628,6 +623,8 @@ alert("Enter Valid Number ❌");
 return;
 
 }
+
+/* SET LIMIT */
 
 await updateDoc(userRef,{
 
