@@ -241,11 +241,11 @@ JEE
 </option>
 
 <option value="12th">
-12th
+12TH
 </option>
 
 <option value="both">
-JEE + 12th
+JEE + 12TH
 </option>
 
 </select>
@@ -450,20 +450,11 @@ ${count}
 
 ${
 docu.data().loginHistory
-&& docu.data().loginHistory.length > 2
+&& docu.data().loginHistory.length > 0
 
 ?
 
-`
-
-<button onclick="toggleHistory('${docu.id}')">
-📜 View Login History
-</button>
-
-<div id="history-${docu.id}"
-style="display:none;">
-
-${docu.data().loginHistory.map(log => `
+docu.data().loginHistory.map(log => `
 
 <p>📅 ${log.date}</p>
 
@@ -476,27 +467,11 @@ ${log.page || "Unknown"}
 
 <hr>
 
-`).join("")}
-
-</div>
-
-`
+`).join("")
 
 :
 
-docu.data().loginHistory
-
-? docu.data().loginHistory.map(log => `
-
-<p>📅 ${log.date}</p>
-
-<p>🕒 ${log.time}</p>
-
-<hr>
-
-`).join("")
-
-: "No Login"
+"No Login"
 
 }
 
@@ -531,22 +506,6 @@ limit != 999999
 });
 
 document.getElementById("history").innerHTML = html;
-
-}
-
-/* VIEW HISTORY */
-
-window.toggleHistory = function(id){
-
-const box =
-document.getElementById(
-"history-" + id
-);
-
-box.style.display =
-box.style.display == "none"
-? "block"
-: "none";
 
 }
 
@@ -600,35 +559,6 @@ box.style.textAlign = "center";
 
 box.style.width = "300px";
 
-box.style.position = "relative";
-
-/* CLOSE BUTTON */
-
-const closeBtn =
-document.createElement("span");
-
-closeBtn.innerHTML = "✖";
-
-closeBtn.style.position = "absolute";
-
-closeBtn.style.top = "10px";
-
-closeBtn.style.right = "15px";
-
-closeBtn.style.color = "red";
-
-closeBtn.style.fontSize = "28px";
-
-closeBtn.style.cursor = "pointer";
-
-closeBtn.style.fontWeight = "bold";
-
-closeBtn.onclick = function(){
-
-document.body.removeChild(popup);
-
-};
-
 /* TITLE */
 
 const title =
@@ -644,32 +574,18 @@ title.style.color = "cyan";
 const select =
 document.createElement("select");
 
-select.style.padding = "15px";
-
-select.style.width = "220px";
-
-select.style.marginTop = "20px";
-
-select.style.fontSize = "18px";
-
-select.style.borderRadius = "10px";
-
-select.style.background = "black";
-
-select.style.color = "white";
-
 select.innerHTML = `
 
 <option value="jee">
-JEE
+🔥 JEE
 </option>
 
 <option value="12th">
-12th
+📚 12TH
 </option>
 
 <option value="both">
-JEE + 12th
+🚀 BOTH
 </option>
 
 `;
@@ -680,7 +596,7 @@ const btn =
 document.createElement("button");
 
 btn.innerHTML =
-"✅ Change";
+"✅ CHANGE";
 
 btn.style.marginTop = "20px";
 
@@ -705,8 +621,6 @@ loadUsers();
 };
 
 /* APPEND */
-
-box.appendChild(closeBtn);
 
 box.appendChild(title);
 
@@ -782,28 +696,6 @@ box.style.boxShadow =
 "0 0 25px cyan";
 box.style.textAlign = "center";
 box.style.width = "300px";
-box.style.position = "relative";
-
-/* CLOSE BUTTON */
-
-const closeBtn =
-document.createElement("span");
-
-closeBtn.innerHTML = "✖";
-
-closeBtn.style.position = "absolute";
-closeBtn.style.top = "10px";
-closeBtn.style.right = "15px";
-closeBtn.style.color = "red";
-closeBtn.style.fontSize = "28px";
-closeBtn.style.cursor = "pointer";
-closeBtn.style.fontWeight = "bold";
-
-closeBtn.onclick = function(){
-
-document.body.removeChild(popup);
-
-};
 
 const title =
 document.createElement("h2");
@@ -821,8 +713,6 @@ input.type = "number";
 input.placeholder =
 "Enter Number";
 
-input.inputMode = "numeric";
-
 const btn =
 document.createElement("button");
 
@@ -832,14 +722,6 @@ btn.onclick = async function(){
 
 let limit =
 parseInt(input.value);
-
-if(input.value.trim() == ""){
-
-alert("Enter Valid Number ❌");
-
-return;
-
-}
 
 if(
 isNaN(limit)
@@ -871,23 +753,15 @@ document.body.removeChild(popup);
 
 loadUsers();
 
-return;
-
 }
 
-box.appendChild(closeBtn);
-
 box.appendChild(title);
-
 box.appendChild(input);
-
 box.appendChild(btn);
 
 popup.appendChild(box);
 
 document.body.appendChild(popup);
-
-input.focus();
 
 }
 
@@ -917,24 +791,6 @@ original.cloneNode(true);
 
 clone.querySelectorAll("button")
 .forEach(btn => btn.remove());
-
-clone.querySelectorAll(".hideDownload")
-.forEach(el => {
-
-el.remove();
-
-});
-
-const hiddenHistory =
-clone.querySelectorAll(
-'[id^="history-"]'
-);
-
-hiddenHistory.forEach(box => {
-
-box.style.display = "block";
-
-});
 
 clone.style.position = "fixed";
 clone.style.top = "-9999px";
@@ -974,4 +830,4 @@ loadUsers();
 </script>
 
 </body>
-</html>
+  </html>
