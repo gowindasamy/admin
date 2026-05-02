@@ -566,6 +566,35 @@ document.getElementById("history").innerHTML = html;
 
 /* CHANGE ACCESS */
 
+/* TOGGLE HISTORY */
+
+window.toggleHistory =
+function(id){
+
+const box =
+document.getElementById(
+"history-" + id
+);
+
+if(
+box.style.display
+== "none"
+){
+
+box.style.display =
+"block";
+
+}
+
+else{
+
+box.style.display =
+"none";
+
+}
+
+}
+  
 window.changeAccess =
 async function(username){
 
