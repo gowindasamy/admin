@@ -18,33 +18,26 @@ box-sizing:border-box;
 }
 
 body{
-
+margin:0;
+padding:0;
 background:black;
 color:white;
-font-family:Arial,sans-serif;
+font-family:Arial;
+text-align:center;
 overflow-x:hidden;
-
-display:flex;
-justify-content:center;
-
 }
 
 /* DIGITAL BACKGROUND */
 
 #wavebg{
-
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-
-background:black;
-
 overflow:hidden;
-
+background:black;
 z-index:-1;
-
 }
 
 #wavebg::before{
@@ -98,15 +91,10 @@ animation:waveMove2 14s linear infinite;
 .mainbox{
 
 width:100%;
-max-width:900px;
 
 padding:20px;
 
 text-align:center;
-
-display:flex;
-flex-direction:column;
-align-items:center;
 
 }
 
@@ -135,8 +123,7 @@ select{
 padding:15px;
 margin:10px;
 
-width:100%;
-max-width:420px;
+width:280px;
 
 font-size:18px;
 
@@ -162,11 +149,15 @@ color:white;
 
 }
 
-/* BUTTONS */
+/* BUTTON */
 
 button{
 
 padding:12px 20px;
+
+font-size:16px;
+
+margin:8px;
 
 min-width:180px;
 
@@ -180,8 +171,6 @@ cyan
 border:none;
 border-radius:12px;
 
-font-size:16px;
-
 cursor:pointer;
 
 font-weight:bold;
@@ -192,8 +181,6 @@ box-shadow:
 0 0 20px cyan;
 
 transition:0.3s;
-
-margin:8px;
 
 }
 
@@ -206,13 +193,6 @@ transform:scale(1.05);
 /* USER AREA */
 
 #history{
-
-display:flex;
-flex-direction:column;
-
-align-items:center;
-
-gap:30px;
 
 width:100%;
 
@@ -227,6 +207,8 @@ rgba(0,0,0,0.88);
 
 width:340px;
 
+margin:25px auto;
+
 padding:25px;
 
 border-radius:20px;
@@ -237,10 +219,6 @@ box-shadow:
 border:2px solid cyan;
 
 backdrop-filter:blur(10px);
-
-display:flex;
-flex-direction:column;
-align-items:center;
 
 }
 
@@ -255,8 +233,8 @@ font-size:18px;
 hr{
 
 border:1px solid cyan;
+
 margin:10px 0;
-width:100%;
 
 }
 
@@ -276,30 +254,24 @@ width:100%;
 @keyframes waveMove{
 
 0%{
-
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
-
 }
 
 50%{
-
 transform:
 translateX(10%)
 translateY(20px)
 rotate(2deg);
-
 }
 
 100%{
-
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
-
 }
 
 }
@@ -307,52 +279,24 @@ rotate(0deg);
 @keyframes waveMove2{
 
 0%{
-
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
-
 }
 
 50%{
-
 transform:
 translateX(-10%)
 translateY(-20px)
 rotate(-2deg);
-
 }
 
 100%{
-
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
-
-}
-
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.userbox{
-
-width:340px;
-
-max-width:95%;
-
-}
-
-button{
-
-min-width:160px;
-
-width:auto;
-
 }
 
 }
@@ -368,9 +312,7 @@ width:auto;
 <div class="mainbox">
 
 <h1>
-
 👑 ADMIN PAGE 👑
-
 </h1>
 
 <input
@@ -406,9 +348,7 @@ JEE + 12th
 <br>
 
 <button onclick="saveUser()">
-
 🚀 Create Login
-
 </button>
 
 <h2 style="
@@ -606,7 +546,6 @@ id="history-${docu.id}"
 style="
 display:none;
 margin-top:20px;
-width:100%;
 ">
 
 ${
@@ -706,6 +645,8 @@ onclick="changeAccess('${docu.id}')">
 
 </button>
 
+<br>
+
 <button
 onclick="toggleLock('${docu.id}')">
 
@@ -723,6 +664,8 @@ onclick="downloadUser('${docu.id}')">
 📥 Download
 
 </button>
+
+<br>
 
 <button
 onclick="removeUser('${docu.id}')">
@@ -742,7 +685,7 @@ html;
 
 }
 
-/* TOGGLE HISTORY */
+/* LOGIN HISTORY */
 
 window.toggleHistory =
 function(id){
