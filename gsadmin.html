@@ -643,6 +643,43 @@ box.style.textAlign = "center";
 
 box.style.width = "300px";
 
+box.style.position =
+"relative";
+
+/* CLOSE BUTTON */
+
+const closeBtn =
+document.createElement("span");
+
+closeBtn.innerHTML = "✖";
+
+closeBtn.style.position =
+"absolute";
+
+closeBtn.style.top = "10px";
+
+closeBtn.style.right = "15px";
+
+closeBtn.style.color = "red";
+
+closeBtn.style.fontSize =
+"28px";
+
+closeBtn.style.cursor =
+"pointer";
+
+closeBtn.style.fontWeight =
+"bold";
+
+closeBtn.onclick =
+function(){
+
+document.body.removeChild(
+popup
+);
+
+};
+
 /* TITLE */
 
 const title =
