@@ -3,6 +3,9 @@
 <head>
 <title>👑 Admin Page</title>
 
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <style>
 
 body{
@@ -142,7 +145,9 @@ text-shadow:
 
 /* Inputs */
 
-input{
+input,
+select{
+
 padding:15px;
 margin:12px;
 width:280px;
@@ -153,6 +158,12 @@ outline:none;
 background:rgba(255,255,255,0.08);
 color:white;
 box-shadow:0 0 20px cyan;
+
+}
+
+option{
+background:black;
+color:white;
 }
 
 /* Buttons */
@@ -233,6 +244,24 @@ placeholder="Create Password">
 
 <br>
 
+<select id="access">
+
+<option value="jee">
+JEE
+</option>
+
+<option value="12th">
+12th
+</option>
+
+<option value="both">
+JEE + 12th
+</option>
+
+</select>
+
+<br>
+
 <button onclick="saveUser()">
 🚀 Create Login
 </button>
@@ -290,9 +319,14 @@ document.getElementById("username").value;
 let password =
 document.getElementById("password").value;
 
+let access =
+document.getElementById("access").value;
+
 await setDoc(doc(db,"users",username),{
 
 password: password,
+
+pageAccess:access,
 
 status:"unlocked",
 
@@ -349,6 +383,14 @@ data-user="${docu.id}">
 <p><b>Username:</b> ${docu.id}</p>
 
 <p><b>Password:</b> ${docu.data().password}</p>
+
+<p>
+
+<b>Page Access:</b>
+
+${docu.data().pageAccess || "jee"}
+
+</p>
 
 <p>
 
@@ -415,56 +457,11 @@ ${count}
 
 }
 
-<h3 style="color:cyan;">
-📅 Login Details
-</h3>
+<button onclick="changeAccess('${docu.id}')">
 
-${
-docu.data().loginHistory
-&& docu.data().loginHistory.length > 2
+🔄 Change Access
 
-?
-
-`
-
-<button onclick="toggleHistory('${docu.id}')">
-📜 View Login History
 </button>
-
-<div id="history-${docu.id}"
-style="display:none;">
-
-${docu.data().loginHistory.map(log => `
-
-<p>📅 ${log.date}</p>
-
-<p>🕒 ${log.time}</p>
-
-<hr>
-
-`).join("")}
-
-</div>
-
-`
-
-:
-
-docu.data().loginHistory
-
-? docu.data().loginHistory.map(log => `
-
-<p>📅 ${log.date}</p>
-
-<p>🕒 ${log.time}</p>
-
-<hr>
-
-`).join("")
-
-: "No Login"
-
-}
 
 <button onclick="toggleLock('${docu.id}')">
 
@@ -494,19 +491,99 @@ document.getElementById("history").innerHTML = html;
 
 }
 
-/* VIEW HISTORY */
+/* CHANGE ACCESS */
 
-window.toggleHistory = function(id){
+window.changeAccess =
+async function(username){
+
+const userRef =
+doc(db,"users",username);
+
+const popup =
+document.createElement("div");
+
+popup.style.position = "fixed";
+popup.style.top = "0";
+popup.style.left = "0";
+popup.style.width = "100%";
+popup.style.height = "100%";
+popup.style.background =
+"rgba(0,0,0,0.85)";
+popup.style.display = "flex";
+popup.style.justifyContent =
+"center";
+popup.style.alignItems =
+"center";
+popup.style.zIndex = "9999";
 
 const box =
-document.getElementById(
-"history-" + id
+document.createElement("div");
+
+box.style.background = "#000";
+box.style.padding = "25px";
+box.style.borderRadius = "15px";
+box.style.boxShadow =
+"0 0 25px cyan";
+box.style.textAlign = "center";
+
+const title =
+document.createElement("h2");
+
+title.innerHTML =
+"🔄 Change Access";
+
+title.style.color = "cyan";
+
+const select =
+document.createElement("select");
+
+select.innerHTML = `
+
+<option value="jee">
+JEE
+</option>
+
+<option value="12th">
+12th
+</option>
+
+<option value="both">
+JEE + 12th
+</option>
+
+`;
+
+const btn =
+document.createElement("button");
+
+btn.innerHTML = "✅ Save";
+
+btn.onclick = async function(){
+
+await updateDoc(userRef,{
+
+pageAccess:
+select.value
+
+});
+
+alert(
+"Access Changed ✅"
 );
 
-box.style.display =
-box.style.display == "none"
-? "block"
-: "none";
+document.body.removeChild(popup);
+
+loadUsers();
+
+};
+
+box.appendChild(title);
+box.appendChild(select);
+box.appendChild(btn);
+
+popup.appendChild(box);
+
+document.body.appendChild(popup);
 
 }
 
@@ -522,8 +599,6 @@ await getDoc(userRef);
 
 const limit =
 userSnap.data().loginLimit || 999999;
-
-/* UNLOCK */
 
 if(limit != 999999){
 
@@ -542,8 +617,6 @@ loadUsers();
 return;
 
 }
-
-/* LOCK POPUP */
 
 const popup =
 document.createElement("div");
@@ -574,8 +647,6 @@ box.style.textAlign = "center";
 box.style.width = "300px";
 box.style.position = "relative";
 
-/* CLOSE BUTTON */
-
 const closeBtn =
 document.createElement("span");
 
@@ -587,7 +658,6 @@ closeBtn.style.right = "15px";
 closeBtn.style.color = "red";
 closeBtn.style.fontSize = "28px";
 closeBtn.style.cursor = "pointer";
-closeBtn.style.fontWeight = "bold";
 
 closeBtn.onclick = function(){
 
@@ -611,8 +681,6 @@ input.type = "number";
 input.placeholder =
 "Enter Number";
 
-input.inputMode = "numeric";
-
 const btn =
 document.createElement("button");
 
@@ -623,17 +691,15 @@ btn.onclick = async function(){
 let limit =
 parseInt(input.value);
 
-/* EMPTY */
-
-if(input.value.trim() == ""){
+if(
+input.value.trim() == ""
+){
 
 alert("Enter Valid Number ❌");
 
 return;
 
 }
-
-/* INVALID */
 
 if(
 isNaN(limit)
@@ -647,8 +713,6 @@ alert(
 return;
 
 }
-
-/* SET LIMIT */
 
 await updateDoc(userRef,{
 
@@ -667,23 +731,16 @@ document.body.removeChild(popup);
 
 loadUsers();
 
-return;
-
-}
+};
 
 box.appendChild(closeBtn);
-
 box.appendChild(title);
-
 box.appendChild(input);
-
 box.appendChild(btn);
 
 popup.appendChild(box);
 
 document.body.appendChild(popup);
-
-input.focus();
 
 }
 
@@ -721,17 +778,6 @@ el.remove();
 
 });
 
-const hiddenHistory =
-clone.querySelectorAll(
-'[id^="history-"]'
-);
-
-hiddenHistory.forEach(box => {
-
-box.style.display = "block";
-
-});
-
 clone.style.position = "fixed";
 clone.style.top = "-9999px";
 
@@ -750,7 +796,7 @@ const link =
 document.createElement("a");
 
 link.download =
-username + "_logindetails.jpg";
+username + "_details.jpg";
 
 link.href =
 URL.createObjectURL(blob);
