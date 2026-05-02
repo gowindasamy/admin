@@ -18,26 +18,33 @@ box-sizing:border-box;
 }
 
 body{
-margin:0;
-padding:0;
+
 background:black;
 color:white;
-font-family:Arial;
-text-align:center;
+font-family:Arial,sans-serif;
 overflow-x:hidden;
+
+display:flex;
+justify-content:center;
+
 }
 
 /* DIGITAL BACKGROUND */
 
 #wavebg{
+
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-overflow:hidden;
+
 background:black;
+
+overflow:hidden;
+
 z-index:-1;
+
 }
 
 #wavebg::before{
@@ -91,6 +98,7 @@ animation:waveMove2 14s linear infinite;
 .mainbox{
 
 width:100%;
+max-width:750px;
 
 padding:20px;
 
@@ -104,7 +112,7 @@ h1{
 
 margin-top:40px;
 
-font-size:55px;
+font-size:65px;
 
 animation:rainbow 4s linear infinite;
 
@@ -120,15 +128,16 @@ text-shadow:
 input,
 select{
 
-padding:15px;
-margin:10px;
+padding:18px;
+margin:12px;
 
-width:280px;
+width:100%;
+max-width:420px;
 
-font-size:18px;
+font-size:20px;
 
 border:none;
-border-radius:12px;
+border-radius:15px;
 
 outline:none;
 
@@ -138,7 +147,7 @@ rgba(255,255,255,0.08);
 color:white;
 
 box-shadow:
-0 0 20px cyan;
+0 0 25px cyan;
 
 }
 
@@ -149,17 +158,11 @@ color:white;
 
 }
 
-/* BUTTON */
+/* BUTTONS */
 
 button{
 
-padding:12px 20px;
-
-font-size:16px;
-
-margin:6px;
-
-width:220px;
+padding:16px 30px;
 
 background:
 linear-gradient(
@@ -169,7 +172,9 @@ cyan
 );
 
 border:none;
-border-radius:12px;
+border-radius:15px;
+
+font-size:20px;
 
 cursor:pointer;
 
@@ -178,9 +183,11 @@ font-weight:bold;
 color:black;
 
 box-shadow:
-0 0 20px cyan;
+0 0 25px cyan;
 
 transition:0.3s;
+
+margin:10px;
 
 }
 
@@ -190,26 +197,19 @@ transform:scale(1.05);
 
 }
 
-/* USER AREA */
-
-#history{
-
-width:100%;
-
-}
-
 /* USER BOX */
 
 .userbox{
 
 background:
-rgba(0,0,0,0.88);
+rgba(0,0,0,0.8);
 
-width:340px;
+width:100%;
+max-width:500px;
 
 margin:25px auto;
 
-padding:25px;
+padding:30px;
 
 border-radius:20px;
 
@@ -220,23 +220,19 @@ border:2px solid cyan;
 
 backdrop-filter:blur(10px);
 
-text-align:center;
-
 }
 
 .userbox p{
 
-margin:10px 0;
-
-font-size:18px;
+margin:15px 0;
+font-size:22px;
 
 }
 
 hr{
 
 border:1px solid cyan;
-
-margin:10px 0;
+margin:15px 0;
 
 }
 
@@ -256,24 +252,30 @@ margin:10px 0;
 @keyframes waveMove{
 
 0%{
+
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
+
 }
 
 50%{
+
 transform:
 translateX(10%)
 translateY(20px)
 rotate(2deg);
+
 }
 
 100%{
+
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
+
 }
 
 }
@@ -281,29 +283,68 @@ rotate(0deg);
 @keyframes waveMove2{
 
 0%{
+
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
+
 }
 
 50%{
+
 transform:
 translateX(-10%)
 translateY(-20px)
 rotate(-2deg);
+
 }
 
 100%{
+
 transform:
 translateX(0)
 translateY(0)
 rotate(0deg);
+
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+h1{
+
+font-size:42px;
+
+}
+
+.userbox{
+
+max-width:95%;
+padding:20px;
+
+}
+
+button{
+
+width:90%;
+
+}
+
+.userbox p{
+
+font-size:18px;
+
 }
 
 }
 
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 </head>
 
@@ -314,7 +355,9 @@ rotate(0deg);
 <div class="mainbox">
 
 <h1>
+
 👑 ADMIN PAGE 👑
+
 </h1>
 
 <input
@@ -350,13 +393,15 @@ JEE + 12th
 <br>
 
 <button onclick="saveUser()">
+
 🚀 Create Login
+
 </button>
 
 <h2 style="
 color:cyan;
-margin-top:25px;
-font-size:30px;
+margin-top:30px;
+font-size:35px;
 ">
 
 📜 User Information
@@ -430,8 +475,7 @@ let access =
 document.getElementById("access").value;
 
 if(
-username.trim()==""
-||
+username.trim()=="" ||
 password.trim()==""
 ){
 
@@ -535,51 +579,6 @@ docu.data().loginHistory
 : 0
 }
 </p>
-
-<button
-onclick="toggleHistory('${docu.id}')">
-
-📜 Login History
-
-</button>
-
-<div
-id="history-${docu.id}"
-style="
-display:none;
-margin-top:20px;
-">
-
-${
-docu.data().loginHistory
-&&
-docu.data().loginHistory.length > 0
-
-?
-
-docu.data().loginHistory.map(log => `
-
-<p>
-
-📅 ${log.date}
-
-<br>
-
-🕒 ${log.time}
-
-</p>
-
-<hr>
-
-`).join("")
-
-:
-
-"No Login History"
-
-}
-
-</div>
 
 <p>
 
@@ -687,23 +686,6 @@ html;
 
 }
 
-/* LOGIN HISTORY */
-
-window.toggleHistory =
-function(id){
-
-const box =
-document.getElementById(
-"history-" + id
-);
-
-box.style.display =
-box.style.display == "none"
-? "block"
-: "none";
-
-}
-
 /* CHANGE ACCESS */
 
 window.changeAccess =
@@ -712,40 +694,22 @@ async function(username){
 const userRef =
 doc(db,"users",username);
 
-const choose =
+const access =
 prompt(
-
-"Choose Access Type 👇\n\njee\n12th\nboth"
-
+"Enter Access:\njee\n12th\nboth"
 );
 
 if(
-!choose
+!access
 ) return;
-
-if(
-choose!="jee"
-&&
-choose!="12th"
-&&
-choose!="both"
-){
-
-alert("Invalid Type ❌");
-
-return;
-
-}
 
 await updateDoc(userRef,{
 
-pageAccess:choose
+pageAccess:access
 
 });
 
-alert(
-"Access Changed ✅"
-);
+alert("Access Changed ✅");
 
 loadUsers();
 
