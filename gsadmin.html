@@ -16,6 +16,17 @@ color:white;
 font-family:Arial;
 text-align:center;
 overflow-x:hidden;
+display:flex;
+justify-content:center;
+}
+
+/* MAIN WRAP */
+
+.mainwrap{
+width:100%;
+max-width:1400px;
+padding:20px;
+box-sizing:border-box;
 }
 
 /* DIGITAL WAVE BACKGROUND */
@@ -30,8 +41,6 @@ z-index:-1;
 overflow:hidden;
 background:black;
 }
-
-/* Wave 1 */
 
 #wavebg::before{
 
@@ -54,8 +63,6 @@ filter:blur(60px);
 animation:waveMove 10s linear infinite;
 
 }
-
-/* Wave 2 */
 
 #wavebg::after{
 
@@ -183,23 +190,65 @@ transform:scale(1.1);
 box-shadow:0 0 35px lime;
 }
 
-/* User Box */
+/* USER BOX */
 
 .userbox{
 background:rgba(0,0,0,0.75);
-width:340px;
-margin:20px auto;
-padding:18px;
-border-radius:15px;
-box-shadow:0 0 20px cyan;
+width:420px;
+display:inline-block;
+vertical-align:top;
+margin:20px;
+padding:22px;
+border-radius:20px;
+box-shadow:0 0 25px cyan;
 word-wrap:break-word;
 border:2px solid cyan;
 backdrop-filter:blur(6px);
+transition:0.3s;
+}
+
+.userbox:hover{
+transform:scale(1.03);
 }
 
 hr{
 border:1px solid cyan;
 }
+
+/* DESKTOP STYLE */
+
+@media(min-width:900px){
+
+#history{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+align-items:flex-start;
+gap:25px;
+}
+
+h1{
+font-size:90px;
+}
+
+input{
+width:420px;
+font-size:24px;
+padding:18px;
+}
+
+button{
+font-size:22px;
+padding:18px 40px;
+}
+
+.userbox{
+width:430px;
+}
+
+}
+
+/* Rainbow */
 
 @keyframes rainbow{
 
@@ -221,6 +270,8 @@ border:1px solid cyan;
 <body>
 
 <div id="wavebg"></div>
+
+<div class="mainwrap">
 
 <h1>👑 ADMIN PAGE 👑</h1>
 
@@ -245,6 +296,8 @@ placeholder="Create Password">
 </h2>
 
 <div id="history"></div>
+
+</div>
 
 <script type="module">
 
@@ -604,11 +657,23 @@ btn.onclick = async function(){
 let limit =
 parseInt(input.value);
 
-/* EMPTY */
+/* EMPTY = NO LIMIT */
 
 if(input.value.trim() == ""){
 
-alert("Enter Valid Number ❌");
+await updateDoc(userRef,{
+
+status:"unlocked",
+loginLimit:999999,
+loginCount:0
+
+});
+
+alert("No Limit Set ✅");
+
+document.body.removeChild(popup);
+
+loadUsers();
 
 return;
 
