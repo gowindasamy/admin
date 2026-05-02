@@ -553,32 +553,139 @@ async function(username){
 const userRef =
 doc(db,"users",username);
 
-const choose =
-prompt(
+/* POPUP */
 
-"Choose Access 👇\n\njee\n12th\nboth"
+const popup =
+document.createElement("div");
 
-);
+popup.style.position = "fixed";
+popup.style.top = "0";
+popup.style.left = "0";
+popup.style.width = "100%";
+popup.style.height = "100%";
 
-if(!choose) return;
+popup.style.background =
+"rgba(0,0,0,0.85)";
 
-if(
-choose != "jee"
-&&
-choose != "12th"
-&&
-choose != "both"
-){
+popup.style.display = "flex";
 
-alert("Invalid Access ❌");
+popup.style.justifyContent =
+"center";
 
-return;
+popup.style.alignItems =
+"center";
 
-}
+popup.style.zIndex = "9999";
+
+/* BOX */
+
+const box =
+document.createElement("div");
+
+box.style.background = "#000";
+
+box.style.padding = "25px";
+
+box.style.borderRadius = "15px";
+
+box.style.boxShadow =
+"0 0 25px cyan";
+
+box.style.textAlign = "center";
+
+box.style.width = "300px";
+
+box.style.position = "relative";
+
+/* CLOSE BUTTON */
+
+const closeBtn =
+document.createElement("span");
+
+closeBtn.innerHTML = "✖";
+
+closeBtn.style.position = "absolute";
+
+closeBtn.style.top = "10px";
+
+closeBtn.style.right = "15px";
+
+closeBtn.style.color = "red";
+
+closeBtn.style.fontSize = "28px";
+
+closeBtn.style.cursor = "pointer";
+
+closeBtn.style.fontWeight = "bold";
+
+closeBtn.onclick = function(){
+
+document.body.removeChild(popup);
+
+};
+
+/* TITLE */
+
+const title =
+document.createElement("h2");
+
+title.innerHTML =
+"🔄 Change Access";
+
+title.style.color = "cyan";
+
+/* SELECT */
+
+const select =
+document.createElement("select");
+
+select.style.padding = "15px";
+
+select.style.width = "220px";
+
+select.style.marginTop = "20px";
+
+select.style.fontSize = "18px";
+
+select.style.borderRadius = "10px";
+
+select.style.background = "black";
+
+select.style.color = "white";
+
+select.innerHTML = `
+
+<option value="jee">
+JEE
+</option>
+
+<option value="12th">
+12th
+</option>
+
+<option value="both">
+JEE + 12th
+</option>
+
+`;
+
+/* BUTTON */
+
+const btn =
+document.createElement("button");
+
+btn.innerHTML =
+"✅ Change";
+
+btn.style.marginTop = "20px";
+
+btn.onclick =
+async function(){
 
 await updateDoc(userRef,{
 
-pageAccess:choose
+pageAccess:
+select.value
 
 });
 
@@ -586,7 +693,25 @@ alert(
 "Access Changed ✅"
 );
 
+document.body.removeChild(popup);
+
 loadUsers();
+
+};
+
+/* APPEND */
+
+box.appendChild(closeBtn);
+
+box.appendChild(title);
+
+box.appendChild(select);
+
+box.appendChild(btn);
+
+popup.appendChild(box);
+
+document.body.appendChild(popup);
 
 }
 
@@ -844,4 +969,4 @@ loadUsers();
 </script>
 
 </body>
-  </html>
+</html>
