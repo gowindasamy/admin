@@ -490,6 +490,17 @@ ${count}
 📅 Login Details
 </h3>
 
+<button
+onclick="toggleHistory('${docu.id}')">
+
+📜 View / Hide History
+
+</button>
+
+<div
+id="history-${docu.id}"
+style="display:none;">
+
 ${
 docu.data().loginHistory
 && docu.data().loginHistory.length > 0
