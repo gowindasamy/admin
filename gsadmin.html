@@ -139,8 +139,7 @@ text-shadow:
 
 /* INPUT */
 
-input,
-select{
+input{
 
 padding:15px;
 
@@ -166,7 +165,64 @@ box-shadow:
 
 }
 
-/* PREMIUM BUTTON */
+/* ACCESS BOX */
+
+#accessBox{
+
+width:280px;
+
+margin:20px auto;
+
+background:
+rgba(255,255,255,0.05);
+
+padding:15px;
+
+border-radius:15px;
+
+box-shadow:
+0 0 20px cyan;
+
+}
+
+.check{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+margin:14px 0;
+
+font-size:20px;
+
+cursor:pointer;
+
+justify-content:flex-start;
+
+}
+
+.check input{
+
+width:22px;
+height:22px;
+
+accent-color:cyan;
+
+cursor:pointer;
+
+}
+
+.check span{
+
+color:white;
+
+font-weight:bold;
+
+}
+
+/* BUTTON */
 
 button{
 
@@ -200,10 +256,6 @@ transition:0.35s;
 
 margin:8px;
 
-position:relative;
-
-overflow:hidden;
-
 }
 
 button:hover{
@@ -215,12 +267,6 @@ scale(1.05);
 box-shadow:
 0 0 25px cyan,
 0 0 45px rgba(0,255,255,0.7);
-
-}
-
-button:active{
-
-transform:scale(0.96);
 
 }
 
@@ -247,6 +293,62 @@ word-wrap:break-word;
 border:2px solid cyan;
 
 backdrop-filter:blur(6px);
+
+}
+
+.popup{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:
+rgba(0,0,0,0.85);
+
+display:flex;
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+}
+
+.popupbox{
+
+background:black;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:
+0 0 30px cyan;
+
+width:320px;
+
+position:relative;
+
+}
+
+.close{
+
+position:absolute;
+
+top:10px;
+right:15px;
+
+font-size:28px;
+
+font-weight:bold;
+
+color:red;
+
+cursor:pointer;
 
 }
 
@@ -287,32 +389,47 @@ type="password"
 id="password"
 placeholder="Create Password">
 
-<br>
+<!-- ACCESS -->
 
-<!-- MULTI ACCESS -->
+<div id="accessBox">
 
-<select
-id="access"
+<label class="check">
 
-multiple
+<input
+type="checkbox"
+value="jee">
 
-style="height:180px;">
-
-<option value="jee">
+<span>
 🔥 JEE
-</option>
+</span>
 
-<option value="12th">
+</label>
+
+<label class="check">
+
+<input
+type="checkbox"
+value="12th">
+
+<span>
 📚 12TH
-</option>
+</span>
 
-<option value="topperzone">
+</label>
+
+<label class="check">
+
+<input
+type="checkbox"
+value="topperzone">
+
+<span>
 🚀 TOPPERZONE
-</option>
+</span>
 
-</select>
+</label>
 
-<br>
+</div>
 
 <button onclick="saveUser()">
 🚀 CREATE LOGIN
@@ -383,18 +500,18 @@ document.getElementById("username").value;
 let password =
 document.getElementById("password").value;
 
-/* MULTI ACCESS */
+/* ACCESS */
 
 let access =
 
 Array.from(
 
-document.getElementById(
-"access"
-).selectedOptions
+document.querySelectorAll(
+'#accessBox input:checked'
+)
 
 ).map(
-option => option.value
+checkbox => checkbox.value
 );
 
 await setDoc(
@@ -418,6 +535,20 @@ loginHistory:[]
 );
 
 alert("Login Created 🚀");
+
+document.getElementById(
+"username"
+).value = "";
+
+document.getElementById(
+"password"
+).value = "";
+
+document.querySelectorAll(
+'#accessBox input'
+).forEach(box => {
+box.checked = false;
+});
 
 loadUsers();
 
@@ -547,48 +678,14 @@ ${count}
 <button
 onclick="toggleHistory('${docu.id}')">
 
-📜 View / Hide History
+📜 History
 
 </button>
-
-<div
-id="history-${docu.id}"
-style="display:none;">
-
-${
-docu.data().loginHistory
-&&
-docu.data().loginHistory.length > 0
-
-?
-
-docu.data().loginHistory.map(log => `
-
-<p>📅 ${log.date}</p>
-
-<p>🕒 ${log.time}</p>
-
-<p>
-🚀 Page:
-${log.page || "Unknown"}
-</p>
-
-<hr>
-
-`).join("")
-
-:
-
-"No Login"
-
-}
-
-</div>
 
 <button
 onclick="changeAccess('${docu.id}')">
 
-🔄 Change Access
+🔄 Access
 
 </button>
 
@@ -604,9 +701,43 @@ ${limit != 999999
 <button
 onclick="removeUser('${docu.id}')">
 
-❌ Remove User
+❌ Remove
 
 </button>
+
+<div
+id="history-${docu.id}"
+style="
+display:none;
+margin-top:15px;
+">
+
+${
+docu.data().loginHistory
+&&
+docu.data().loginHistory.length > 0
+
+?
+
+docu.data().loginHistory.map(log => `
+
+<p>📅 ${log.date}</p>
+
+<p>🕒 ${log.time}</p>
+
+<p>🚀 ${log.page}</p>
+
+<hr>
+
+`).join("")
+
+:
+
+"No Login"
+
+}
+
+</div>
 
 </div>
 
@@ -620,7 +751,7 @@ document.getElementById(
 
 }
 
-/* TOGGLE HISTORY */
+/* HISTORY */
 
 window.toggleHistory =
 function(id){
@@ -630,22 +761,18 @@ document.getElementById(
 "history-" + id
 );
 
-if(
+box.style.display =
+
 box.style.display
 == "none"
-){
 
-box.style.display =
-"block";
+?
 
-}
+"block"
 
-else{
+:
 
-box.style.display =
 "none";
-
-}
 
 }
 
@@ -660,131 +787,89 @@ doc(db,"users",username);
 const popup =
 document.createElement("div");
 
-popup.style.position = "fixed";
-popup.style.top = "0";
-popup.style.left = "0";
-popup.style.width = "100%";
-popup.style.height = "100%";
+popup.className =
+"popup";
 
-popup.style.background =
-"rgba(0,0,0,0.85)";
+popup.innerHTML =
 
-popup.style.display = "flex";
+`
 
-popup.style.justifyContent =
-"center";
+<div class="popupbox">
 
-popup.style.alignItems =
-"center";
+<div class="close"
+onclick="this.parentElement.parentElement.remove()">
 
-popup.style.zIndex = "9999";
+✖
 
-const box =
-document.createElement("div");
+</div>
 
-box.style.background = "#000";
+<h2 style="color:cyan;">
+🔄 Change Access
+</h2>
 
-box.style.padding = "25px";
+<label class="check">
 
-box.style.borderRadius = "15px";
+<input
+type="checkbox"
+value="jee">
 
-box.style.boxShadow =
-"0 0 25px cyan";
-
-box.style.textAlign = "center";
-
-box.style.width = "320px";
-
-box.style.position =
-"relative";
-
-/* CLOSE BUTTON */
-
-const closeBtn =
-document.createElement("span");
-
-closeBtn.innerHTML = "✖";
-
-closeBtn.style.position =
-"absolute";
-
-closeBtn.style.top = "10px";
-
-closeBtn.style.right = "15px";
-
-closeBtn.style.color = "red";
-
-closeBtn.style.fontSize =
-"28px";
-
-closeBtn.style.cursor =
-"pointer";
-
-closeBtn.style.fontWeight =
-"bold";
-
-closeBtn.onclick =
-function(){
-
-document.body.removeChild(
-popup
-);
-
-};
-
-/* TITLE */
-
-const title =
-document.createElement("h2");
-
-title.innerHTML =
-"🔄 Change Access";
-
-title.style.color = "cyan";
-
-/* MULTI SELECT */
-
-const select =
-document.createElement("select");
-
-select.multiple = true;
-
-select.style.height =
-"180px";
-
-select.innerHTML = `
-
-<option value="jee">
+<span>
 🔥 JEE
-</option>
+</span>
 
-<option value="12th">
+</label>
+
+<label class="check">
+
+<input
+type="checkbox"
+value="12th">
+
+<span>
 📚 12TH
-</option>
+</span>
 
-<option value="topperzone">
+</label>
+
+<label class="check">
+
+<input
+type="checkbox"
+value="topperzone">
+
+<span>
 🚀 TOPPERZONE
-</option>
+</span>
+
+</label>
+
+<button id="saveAccess">
+✅ SAVE
+</button>
+
+</div>
 
 `;
 
-/* BUTTON */
+document.body.appendChild(
+popup
+);
 
-const btn =
-document.createElement("button");
-
-btn.innerHTML =
-"✅ CHANGE";
-
-btn.onclick =
+document.getElementById(
+"saveAccess"
+).onclick =
 async function(){
 
 let access =
 
 Array.from(
-select.selectedOptions
+
+popup.querySelectorAll(
+'input:checked'
+)
+
 ).map(
-option => option.value
+checkbox => checkbox.value
 );
 
 await updateDoc(userRef,{
@@ -797,25 +882,11 @@ alert(
 "Access Changed ✅"
 );
 
-document.body.removeChild(
-popup
-);
+popup.remove();
 
 loadUsers();
 
 };
-
-box.appendChild(closeBtn);
-
-box.appendChild(title);
-
-box.appendChild(select);
-
-box.appendChild(btn);
-
-popup.appendChild(box);
-
-document.body.appendChild(popup);
 
 }
 
@@ -861,105 +932,58 @@ return;
 const popup =
 document.createElement("div");
 
-popup.style.position = "fixed";
-popup.style.top = "0";
-popup.style.left = "0";
-popup.style.width = "100%";
-popup.style.height = "100%";
+popup.className =
+"popup";
 
-popup.style.background =
-"rgba(0,0,0,0.85)";
+popup.innerHTML =
 
-popup.style.display = "flex";
+`
 
-popup.style.justifyContent =
-"center";
+<div class="popupbox">
 
-popup.style.alignItems =
-"center";
+<div class="close"
+onclick="this.parentElement.parentElement.remove()">
 
-popup.style.zIndex = "9999";
+✖
 
-const box =
-document.createElement("div");
+</div>
 
-box.style.background = "#000";
+<h2 style="color:cyan;">
+🔒 Login Limit
+</h2>
 
-box.style.padding = "25px";
+<input
+type="number"
+id="limitInput"
+placeholder="Enter Limit">
 
-box.style.borderRadius = "15px";
+<br>
 
-box.style.boxShadow =
-"0 0 25px cyan";
+<button id="limitBtn">
+✅ SAVE
+</button>
 
-box.style.textAlign = "center";
+</div>
 
-box.style.width = "300px";
+`;
 
-box.style.position =
-"relative";
-
-/* CLOSE BUTTON */
-
-const closeBtn =
-document.createElement("span");
-
-closeBtn.innerHTML = "✖";
-
-closeBtn.style.position =
-"absolute";
-
-closeBtn.style.top = "10px";
-
-closeBtn.style.right = "15px";
-
-closeBtn.style.color = "red";
-
-closeBtn.style.fontSize =
-"28px";
-
-closeBtn.style.cursor =
-"pointer";
-
-closeBtn.style.fontWeight =
-"bold";
-
-closeBtn.onclick =
-function(){
-
-document.body.removeChild(
+document.body.appendChild(
 popup
 );
 
-};
-
-const title =
-document.createElement("h2");
-
-title.innerHTML =
-"🔒 Enter Login Limit";
-
-title.style.color = "cyan";
-
-const input =
-document.createElement("input");
-
-input.type = "number";
-
-input.placeholder =
-"Enter Number";
-
-const btn =
-document.createElement("button");
-
-btn.innerHTML =
-"✅ OK";
-
-btn.onclick =
+document.getElementById(
+"limitBtn"
+).onclick =
 async function(){
 
 let limit =
-parseInt(input.value);
+parseInt(
+
+document.getElementById(
+"limitInput"
+).value
+
+);
 
 if(
 isNaN(limit)
@@ -968,7 +992,7 @@ limit <= 0
 ){
 
 alert(
-"Enter Number Above 0 ❌"
+"Enter Valid Number ❌"
 );
 
 return;
@@ -986,29 +1010,14 @@ loginCount:0
 });
 
 alert(
-"Limit Set : "
-+ limit
+"Limit Set ✅"
 );
 
-document.body.removeChild(
-popup
-);
+popup.remove();
 
 loadUsers();
 
 };
-
-box.appendChild(closeBtn);
-
-box.appendChild(title);
-
-box.appendChild(input);
-
-box.appendChild(btn);
-
-popup.appendChild(box);
-
-document.body.appendChild(popup);
 
 }
 
@@ -1032,4 +1041,4 @@ loadUsers();
 </script>
 
 </body>
-</html>
+  </html>
