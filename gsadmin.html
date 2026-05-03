@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>👑 ADMIN PAGE 👑</title>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
 
@@ -440,7 +443,8 @@ count >= limit
 
 html += `
 
-<div class="userbox">
+<div class="userbox"
+data-user="${docu.id}">
 
 <h3>👤 USER INFO</h3>
 
@@ -579,6 +583,13 @@ ${limit != 999999
 </button>
 
 <button
+onclick="downloadUser('${docu.id}')">
+
+📥 Download
+
+</button>
+
+<button
 onclick="removeUser('${docu.id}')">
 
 ❌ Remove User
@@ -634,8 +645,6 @@ async function(username){
 const userRef =
 doc(db,"users",username);
 
-/* POPUP */
-
 const popup =
 document.createElement("div");
 
@@ -657,8 +666,6 @@ popup.style.alignItems =
 "center";
 
 popup.style.zIndex = "9999";
-
-/* BOX */
 
 const box =
 document.createElement("div");
@@ -713,8 +720,6 @@ popup
 
 };
 
-/* TITLE */
-
 const title =
 document.createElement("h2");
 
@@ -722,8 +727,6 @@ title.innerHTML =
 "🔄 Change Access";
 
 title.style.color = "cyan";
-
-/* SELECT */
 
 const select =
 document.createElement("select");
@@ -743,8 +746,6 @@ select.innerHTML = `
 </option>
 
 `;
-
-/* BUTTON */
 
 const btn =
 document.createElement("button");
@@ -849,8 +850,6 @@ popup.style.alignItems =
 
 popup.style.zIndex = "9999";
 
-/* BOX */
-
 const box =
 document.createElement("div");
 
@@ -904,8 +903,6 @@ popup
 
 };
 
-/* TITLE */
-
 const title =
 document.createElement("h2");
 
@@ -914,8 +911,6 @@ title.innerHTML =
 
 title.style.color = "cyan";
 
-/* INPUT */
-
 const input =
 document.createElement("input");
 
@@ -923,8 +918,6 @@ input.type = "number";
 
 input.placeholder =
 "Enter Number";
-
-/* BUTTON */
 
 const btn =
 document.createElement("button");
@@ -989,6 +982,83 @@ document.body.appendChild(popup);
 
 }
 
+/* DOWNLOAD USER */
+
+window.downloadUser =
+async function(username){
+
+const original =
+document.querySelector(
+`[data-user="${username}"]`
+);
+
+const clone =
+original.cloneNode(true);
+
+/* REMOVE ACCESS & STATUS */
+
+clone.querySelectorAll("p")
+.forEach(p => {
+
+if(
+p.innerText.includes("Access:")
+||
+p.innerText.includes("Status:")
+){
+
+p.remove();
+
+}
+
+});
+
+/* REMOVE BUTTONS */
+
+clone.querySelectorAll("button")
+.forEach(btn => btn.remove());
+
+clone.style.position =
+"fixed";
+
+clone.style.top =
+"-9999px";
+
+document.body.appendChild(
+clone
+);
+
+html2canvas(clone,{
+
+backgroundColor:"#000000",
+
+scale:2
+
+}).then(canvas => {
+
+canvas.toBlob(function(blob){
+
+const link =
+document.createElement("a");
+
+link.download =
+username +
+"_details.jpg";
+
+link.href =
+URL.createObjectURL(blob);
+
+link.click();
+
+document.body.removeChild(
+clone
+);
+
+},"image/jpeg",1.0);
+
+});
+
+}
+
 /* REMOVE USER */
 
 window.removeUser =
@@ -1009,4 +1079,4 @@ loadUsers();
 </script>
 
 </body>
-</html>
+  </html>
