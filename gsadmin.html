@@ -4,8 +4,6 @@
 
 <title>👑 ADMIN PAGE 👑</title>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 <style>
 
 body{
@@ -443,8 +441,7 @@ count >= limit
 
 html += `
 
-<div class="userbox"
-data-user="${docu.id}">
+<div class="userbox">
 
 <h3>👤 USER INFO</h3>
 
@@ -579,13 +576,6 @@ onclick="toggleLock('${docu.id}')">
 ${limit != 999999
 ? "🔓 Unlock"
 : "🔒 Lock"}
-
-</button>
-
-<button
-onclick="downloadUser('${docu.id}')">
-
-📥 Download
 
 </button>
 
@@ -982,83 +972,6 @@ document.body.appendChild(popup);
 
 }
 
-/* DOWNLOAD USER */
-
-window.downloadUser =
-async function(username){
-
-const original =
-document.querySelector(
-`[data-user="${username}"]`
-);
-
-const clone =
-original.cloneNode(true);
-
-/* REMOVE ACCESS & STATUS */
-
-clone.querySelectorAll("p")
-.forEach(p => {
-
-if(
-p.innerText.includes("Access:")
-||
-p.innerText.includes("Status:")
-){
-
-p.remove();
-
-}
-
-});
-
-/* REMOVE BUTTONS */
-
-clone.querySelectorAll("button")
-.forEach(btn => btn.remove());
-
-clone.style.position =
-"fixed";
-
-clone.style.top =
-"-9999px";
-
-document.body.appendChild(
-clone
-);
-
-html2canvas(clone,{
-
-backgroundColor:"#000000",
-
-scale:2
-
-}).then(canvas => {
-
-canvas.toBlob(function(blob){
-
-const link =
-document.createElement("a");
-
-link.download =
-username +
-"_details.jpg";
-
-link.href =
-URL.createObjectURL(blob);
-
-link.click();
-
-document.body.removeChild(
-clone
-);
-
-},"image/jpeg",1.0);
-
-});
-
-}
-
 /* REMOVE USER */
 
 window.removeUser =
@@ -1079,4 +992,4 @@ loadUsers();
 </script>
 
 </body>
-  </html>
+</html>
