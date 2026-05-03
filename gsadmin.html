@@ -289,7 +289,14 @@ placeholder="Create Password">
 
 <br>
 
-<select id="access">
+<!-- MULTI ACCESS -->
+
+<select
+id="access"
+
+multiple
+
+style="height:180px;">
 
 <option value="jee">
 🔥 JEE
@@ -299,8 +306,8 @@ placeholder="Create Password">
 📚 12TH
 </option>
 
-<option value="both">
-🚀 BOTH
+<option value="topperzone">
+🚀 TOPPERZONE
 </option>
 
 </select>
@@ -376,8 +383,19 @@ document.getElementById("username").value;
 let password =
 document.getElementById("password").value;
 
+/* MULTI ACCESS */
+
 let access =
-document.getElementById("access").value;
+
+Array.from(
+
+document.getElementById(
+"access"
+).selectedOptions
+
+).map(
+option => option.value
+);
 
 await setDoc(
 doc(db,"users",username),
@@ -457,7 +475,11 @@ ${docu.data().password}
 
 <p>
 <b>Access:</b>
-${docu.data().pageAccess}
+
+${docu.data().pageAccess
+? docu.data().pageAccess.join(", ")
+: "No Access"}
+
 </p>
 
 <p>
@@ -671,7 +693,7 @@ box.style.boxShadow =
 
 box.style.textAlign = "center";
 
-box.style.width = "300px";
+box.style.width = "320px";
 
 box.style.position =
 "relative";
@@ -710,6 +732,8 @@ popup
 
 };
 
+/* TITLE */
+
 const title =
 document.createElement("h2");
 
@@ -718,8 +742,15 @@ title.innerHTML =
 
 title.style.color = "cyan";
 
+/* MULTI SELECT */
+
 const select =
 document.createElement("select");
+
+select.multiple = true;
+
+select.style.height =
+"180px";
 
 select.innerHTML = `
 
@@ -731,11 +762,13 @@ select.innerHTML = `
 📚 12TH
 </option>
 
-<option value="both">
-🚀 BOTH
+<option value="topperzone">
+🚀 TOPPERZONE
 </option>
 
 `;
+
+/* BUTTON */
 
 const btn =
 document.createElement("button");
@@ -746,10 +779,17 @@ btn.innerHTML =
 btn.onclick =
 async function(){
 
+let access =
+
+Array.from(
+select.selectedOptions
+).map(
+option => option.value
+);
+
 await updateDoc(userRef,{
 
-pageAccess:
-select.value
+pageAccess:access
 
 });
 
