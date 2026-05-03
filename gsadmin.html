@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>👑 Admin Page</title>
+<title>👑 ADMIN PAGE 👑</title>
 
 <style>
 
@@ -15,7 +15,7 @@ text-align:center;
 overflow-x:hidden;
 }
 
-/* DIGITAL WAVE BACKGROUND */
+/* BACKGROUND */
 
 #wavebg{
 position:fixed;
@@ -27,8 +27,6 @@ z-index:-1;
 overflow:hidden;
 background:black;
 }
-
-/* Wave 1 */
 
 #wavebg::before{
 
@@ -52,8 +50,6 @@ animation:waveMove 10s linear infinite;
 
 }
 
-/* Wave 2 */
-
 #wavebg::after{
 
 content:"";
@@ -76,7 +72,7 @@ animation:waveMove2 14s linear infinite;
 
 }
 
-/* Animations */
+/* ANIMATION */
 
 @keyframes waveMove{
 
@@ -128,7 +124,7 @@ rotate(0deg);
 
 }
 
-/* Title */
+/* TITLE */
 
 h1{
 margin-top:50px;
@@ -140,23 +136,36 @@ text-shadow:
 0 0 30px lime;
 }
 
-/* Inputs */
+/* INPUT */
 
 input,
 select{
+
 padding:15px;
+
 margin:12px;
+
 width:280px;
+
 font-size:18px;
+
 border:none;
+
 border-radius:12px;
+
 outline:none;
-background:rgba(255,255,255,0.08);
+
+background:
+rgba(255,255,255,0.08);
+
 color:white;
-box-shadow:0 0 20px cyan;
+
+box-shadow:
+0 0 20px cyan;
+
 }
 
-/* Buttons */
+/* PREMIUM BUTTON */
 
 button{
 
@@ -196,8 +205,6 @@ overflow:hidden;
 
 }
 
-/* HOVER */
-
 button:hover{
 
 transform:
@@ -210,31 +217,36 @@ box-shadow:
 
 }
 
-/* CLICK */
-
 button:active{
 
 transform:scale(0.96);
 
 }
 
-button:hover{
-transform:scale(1.1);
-box-shadow:0 0 35px lime;
-}
-
-/* User Box */
+/* USER BOX */
 
 .userbox{
-background:rgba(0,0,0,0.75);
+
+background:
+rgba(0,0,0,0.75);
+
 width:340px;
+
 margin:20px auto;
+
 padding:18px;
+
 border-radius:15px;
-box-shadow:0 0 20px cyan;
+
+box-shadow:
+0 0 20px cyan;
+
 word-wrap:break-word;
+
 border:2px solid cyan;
+
 backdrop-filter:blur(6px);
+
 }
 
 hr{
@@ -254,8 +266,6 @@ border:1px solid cyan;
 
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 </head>
 
 <body>
@@ -264,13 +274,15 @@ border:1px solid cyan;
 
 <h1>👑 ADMIN PAGE 👑</h1>
 
-<input type="text"
+<input
+type="text"
 id="username"
 placeholder="Create Username">
 
 <br>
 
-<input type="password"
+<input
+type="password"
 id="password"
 placeholder="Create Password">
 
@@ -279,15 +291,15 @@ placeholder="Create Password">
 <select id="access">
 
 <option value="jee">
-JEE
+🔥 JEE
 </option>
 
 <option value="12th">
-12TH
+📚 12TH
 </option>
 
 <option value="both">
-JEE + 12TH
+🚀 BOTH
 </option>
 
 </select>
@@ -295,11 +307,11 @@ JEE + 12TH
 <br>
 
 <button onclick="saveUser()">
-🚀 Create Login
+🚀 CREATE LOGIN
 </button>
 
 <h2 style="color:cyan;">
-📜 User Information
+📜 USER INFORMATION
 </h2>
 
 <div id="history"></div>
@@ -310,6 +322,7 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
+
 getFirestore,
 doc,
 setDoc,
@@ -318,32 +331,43 @@ getDocs,
 deleteDoc,
 updateDoc,
 getDoc
+
 }
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyAV9WmHR_cY01i3UMLpwlbymjjz_sQT_80",
+apiKey:
+"AIzaSyAV9WmHR_cY01i3UMLpwlbymjjz_sQT_80",
 
-authDomain: "tngslogin.firebaseapp.com",
+authDomain:
+"tngslogin.firebaseapp.com",
 
-projectId: "tngslogin",
+projectId:
+"tngslogin",
 
-storageBucket: "tngslogin.firebasestorage.app",
+storageBucket:
+"tngslogin.firebasestorage.app",
 
-messagingSenderId: "552680193680",
+messagingSenderId:
+"552680193680",
 
-appId: "1:552680193680:web:54db58e0e418a2b63aa215"
+appId:
+"1:552680193680:web:54db58e0e418a2b63aa215"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+getFirestore(app);
 
 /* CREATE USER */
 
-window.saveUser = async function(){
+window.saveUser =
+async function(){
 
 let username =
 document.getElementById("username").value;
@@ -354,9 +378,11 @@ document.getElementById("password").value;
 let access =
 document.getElementById("access").value;
 
-await setDoc(doc(db,"users",username),{
+await setDoc(
+doc(db,"users",username),
+{
 
-password: password,
+password:password,
 
 pageAccess:access,
 
@@ -368,13 +394,11 @@ loginCount:0,
 
 loginHistory:[]
 
-});
+}
+
+);
 
 alert("Login Created 🚀");
-
-document.getElementById("username").value = "";
-
-document.getElementById("password").value = "";
 
 loadUsers();
 
@@ -385,44 +409,57 @@ loadUsers();
 async function loadUsers(){
 
 const querySnapshot =
-await getDocs(collection(db,"users"));
+await getDocs(
+collection(db,"users")
+);
 
 let html = "";
 
 querySnapshot.forEach((docu)=>{
 
 let limit =
-docu.data().loginLimit || 999999;
+docu.data().loginLimit
+|| 999999;
 
 let count =
-docu.data().loginCount || 0;
+docu.data().loginCount
+|| 0;
 
 let status =
+
 count >= limit
 && limit != 999999
 
-? "locked"
+?
 
-: "unlocked";
+"locked"
+
+:
+
+"unlocked";
 
 html += `
 
-<div class="userbox"
-data-user="${docu.id}">
+<div class="userbox">
 
-<h3>👤 User Information</h3>
-
-<p><b>Username:</b> ${docu.id}</p>
-
-<p><b>Password:</b> ${docu.data().password}</p>
+<h3>👤 USER INFO</h3>
 
 <p>
-<b>Page Access:</b>
+<b>Username:</b>
+${docu.id}
+</p>
+
+<p>
+<b>Password:</b>
+${docu.data().password}
+</p>
+
+<p>
+<b>Access:</b>
 ${docu.data().pageAccess}
 </p>
 
 <p>
-
 <b>Total Logins:</b>
 
 ${docu.data().loginHistory
@@ -431,35 +468,33 @@ ${docu.data().loginHistory
 
 </p>
 
-<p class="hideDownload">
+<p>
 
 <b>Status:</b>
 
 <span style="
 color:
-${status == "locked"
+${status=="locked"
 ? "red"
 : "lime"};
 font-weight:bold;
 ">
 
-${status == "locked"
+${status=="locked"
 ? "🔒 Locked"
-: "🔓 Not Locked"}
+: "🔓 Active"}
 
 </span>
 
 </p>
 
-<p class="hideDownload">
+<p>
 
 <b>Login Limit:</b>
 
-${
-limit >= 999999
-? "No Limit Set"
-: limit
-}
+${limit >= 999999
+? "Unlimited"
+: limit}
 
 </p>
 
@@ -470,7 +505,7 @@ limit != 999999
 
 `
 
-<p class="hideDownload">
+<p>
 
 <b>Current Login:</b>
 
@@ -486,10 +521,6 @@ ${count}
 
 }
 
-<h3 style="color:cyan;">
-📅 Login Details
-</h3>
-
 <button
 onclick="toggleHistory('${docu.id}')">
 
@@ -503,7 +534,8 @@ style="display:none;">
 
 ${
 docu.data().loginHistory
-&& docu.data().loginHistory.length > 0
+&&
+docu.data().loginHistory.length > 0
 
 ?
 
@@ -520,9 +552,7 @@ ${log.page || "Unknown"}
 
 <hr>
 
-`).join("")}
-
-</div>
+`).join("")
 
 :
 
@@ -530,28 +560,29 @@ ${log.page || "Unknown"}
 
 }
 
-<button onclick="changeAccess('${docu.id}')">
+</div>
+
+<button
+onclick="changeAccess('${docu.id}')">
 
 🔄 Change Access
 
 </button>
 
-<button onclick="toggleLock('${docu.id}')">
+<button
+onclick="toggleLock('${docu.id}')">
 
-${
-limit != 999999
+${limit != 999999
 ? "🔓 Unlock"
-: "🔒 Lock"
-}
+: "🔒 Lock"}
 
 </button>
 
-<button onclick="downloadUser('${docu.id}')">
-📥 Download
-</button>
+<button
+onclick="removeUser('${docu.id}')">
 
-<button onclick="removeUser('${docu.id}')">
 ❌ Remove User
+
 </button>
 
 </div>
@@ -560,11 +591,11 @@ limit != 999999
 
 });
 
-document.getElementById("history").innerHTML = html;
+document.getElementById(
+"history"
+).innerHTML = html;
 
 }
-
-/* CHANGE ACCESS */
 
 /* TOGGLE HISTORY */
 
@@ -594,7 +625,9 @@ box.style.display =
 }
 
 }
-  
+
+/* CHANGE ACCESS */
+
 window.changeAccess =
 async function(username){
 
@@ -719,8 +752,6 @@ document.createElement("button");
 btn.innerHTML =
 "✅ CHANGE";
 
-btn.style.marginTop = "20px";
-
 btn.onclick =
 async function(){
 
@@ -735,16 +766,16 @@ alert(
 "Access Changed ✅"
 );
 
-document.body.removeChild(popup);
+document.body.removeChild(
+popup
+);
 
 loadUsers();
 
 };
 
-/* APPEND */
-
 box.appendChild(closeBtn);
-  
+
 box.appendChild(title);
 
 box.appendChild(select);
@@ -759,7 +790,8 @@ document.body.appendChild(popup);
 
 /* LOCK / UNLOCK */
 
-window.toggleLock = async function(username){
+window.toggleLock =
+async function(username){
 
 const userRef =
 doc(db,"users",username);
@@ -768,7 +800,8 @@ const userSnap =
 await getDoc(userRef);
 
 const limit =
-userSnap.data().loginLimit || 999999;
+userSnap.data().loginLimit
+|| 999999;
 
 /* UNLOCK */
 
@@ -777,7 +810,9 @@ if(limit != 999999){
 await updateDoc(userRef,{
 
 status:"unlocked",
+
 loginLimit:999999,
+
 loginCount:0
 
 });
@@ -790,7 +825,7 @@ return;
 
 }
 
-/* LOCK POPUP */
+/* POPUP */
 
 const popup =
 document.createElement("div");
@@ -800,24 +835,36 @@ popup.style.top = "0";
 popup.style.left = "0";
 popup.style.width = "100%";
 popup.style.height = "100%";
+
 popup.style.background =
 "rgba(0,0,0,0.85)";
+
 popup.style.display = "flex";
+
 popup.style.justifyContent =
 "center";
+
 popup.style.alignItems =
 "center";
+
 popup.style.zIndex = "9999";
+
+/* BOX */
 
 const box =
 document.createElement("div");
 
 box.style.background = "#000";
+
 box.style.padding = "25px";
+
 box.style.borderRadius = "15px";
+
 box.style.boxShadow =
 "0 0 25px cyan";
+
 box.style.textAlign = "center";
+
 box.style.width = "300px";
 
 box.style.position =
@@ -856,7 +903,9 @@ popup
 );
 
 };
-  
+
+/* TITLE */
+
 const title =
 document.createElement("h2");
 
@@ -864,6 +913,8 @@ title.innerHTML =
 "🔒 Enter Login Limit";
 
 title.style.color = "cyan";
+
+/* INPUT */
 
 const input =
 document.createElement("input");
@@ -873,19 +924,24 @@ input.type = "number";
 input.placeholder =
 "Enter Number";
 
+/* BUTTON */
+
 const btn =
 document.createElement("button");
 
-btn.innerHTML = "✅ OK";
+btn.innerHTML =
+"✅ OK";
 
-btn.onclick = async function(){
+btn.onclick =
+async function(){
 
 let limit =
 parseInt(input.value);
 
 if(
 isNaN(limit)
-|| limit <= 0
+||
+limit <= 0
 ){
 
 alert(
@@ -899,7 +955,9 @@ return;
 await updateDoc(userRef,{
 
 status:"unlocked",
+
 loginLimit:limit,
+
 loginCount:0
 
 });
@@ -909,15 +967,20 @@ alert(
 + limit
 );
 
-document.body.removeChild(popup);
+document.body.removeChild(
+popup
+);
 
 loadUsers();
 
-}
-  
+};
+
 box.appendChild(closeBtn);
+
 box.appendChild(title);
+
 box.appendChild(input);
+
 box.appendChild(btn);
 
 popup.appendChild(box);
@@ -928,61 +991,16 @@ document.body.appendChild(popup);
 
 /* REMOVE USER */
 
-window.removeUser = async function(username){
+window.removeUser =
+async function(username){
 
-await deleteDoc(doc(db,"users",username));
+await deleteDoc(
+doc(db,"users",username)
+);
 
 alert("User Removed ❌");
 
 loadUsers();
-
-}
-
-/* DOWNLOAD JPG */
-
-window.downloadUser = async function(username){
-
-const original =
-document.querySelector(
-`[data-user="${username}"]`
-);
-
-const clone =
-original.cloneNode(true);
-
-clone.querySelectorAll("button")
-.forEach(btn => btn.remove());
-
-clone.style.position = "fixed";
-clone.style.top = "-9999px";
-
-document.body.appendChild(clone);
-
-html2canvas(clone,{
-
-backgroundColor:"#000000",
-scale:2
-
-}).then(canvas => {
-
-canvas.toBlob(function(blob){
-
-const link =
-document.createElement("a");
-
-link.download =
-username + "_logindetails.jpg";
-
-link.href =
-URL.createObjectURL(blob);
-
-link.click();
-
-document.body.removeChild(clone);
-
-},"image/jpeg",1.0);
-
-});
 
 }
 
@@ -991,4 +1009,4 @@ loadUsers();
 </script>
 
 </body>
-  </html>
+</html>
